@@ -371,7 +371,6 @@ Submit problems through [GitHub Issues](https://github.com/yuese-code/YSbrowser/
 
 **QQ Group: 1043047569**
 
-<img src="./qrcode_1791730257577.jpg" alt="YSbrowser QQ Group" width="360">
 
 </div>
 

@@ -374,7 +374,6 @@ Visitor ID 通常不只依赖绘画指纹。Cookie、LocalStorage、IndexedDB、
 
 **QQ 交流群：1043047569**
 
-<img src="./qrcode_1791730257577.jpg" alt="YSbrowser QQ 交流群" width="360">
 
 </div>
 
