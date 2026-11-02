@@ -369,7 +369,11 @@ Submit problems through [GitHub Issues](https://github.com/yuese-code/YSbrowser/
 
 <div align="center">
 
-**QQ Group: 1043047569**
+**[Fingerprint Browser Community · QQ Group: 1043047569](https://qm.qq.com/q/XMusOAM9Sa)**
+
+<a href="https://qm.qq.com/q/XMusOAM9Sa"><img src="assets/qq-group.png" alt="Scan to join the QQ group" width="300"></a>
+
+[Join the QQ group](https://qm.qq.com/q/XMusOAM9Sa)
 
 
 </div>

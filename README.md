@@ -372,7 +372,11 @@ Visitor ID 通常不只依赖绘画指纹。Cookie、LocalStorage、IndexedDB、
 
 <div align="center">
 
-**QQ 交流群：1043047569**
+**[指纹浏览器交流 · QQ 群：1043047569](https://qm.qq.com/q/XMusOAM9Sa)**
+
+<a href="https://qm.qq.com/q/XMusOAM9Sa"><img src="assets/qq-group.png" alt="扫码加入指纹浏览器交流群" width="300"></a>
+
+[点击链接加入群聊](https://qm.qq.com/q/XMusOAM9Sa)
 
 
 </div>
