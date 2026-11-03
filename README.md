@@ -14,7 +14,7 @@
 
 [English](README-en.md) | [中文](README.md)
 
-[SDK 使用手册](https://yuese-code.github.io/YSbrowser/sdk/0.11.5.post3/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
+[SDK 使用手册](https://yuese-code.github.io/YSbrowser/sdk/0.11.6/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
 
 </div>
 
@@ -76,7 +76,7 @@ YSbrowser 是基于 Chromium 定制的 Windows / Linux 桌面浏览器。新版�
 
 从 [Releases](https://github.com/yuese-code/YSbrowser/releases) 下载 Windows 压缩包，解压后运行 `chrome.exe`。
 
-6.4 的 Windows 包为 `chrome.7z`，入口为 `Chrome-bin/chrome.exe`。Linux 包为 `YSbrowser-154.0.8037.57-ubuntu24.04-x86_64.AppImage`，面向 Ubuntu 24.04 x86_64，要求 AVX2、FMA、F16C。下载后 `chmod +x` 即可执行，沙箱与 AppArmor 配置见同一 Release 的 `AppImage-README.txt`。两端均支持 SDK 0.11.5.post3 自动下载和 SHA-256 校验：
+6.5 的 Windows 包为 `chrome.7z`，入口为 `Chrome-bin/chrome.exe`。Linux 包为 `YSbrowser-154.0.8037.57-ubuntu24.04-x86_64.AppImage`，面向 Ubuntu 24.04 x86_64，要求 AVX2、FMA、F16C。下载后 `chmod +x` 即可执行，沙箱与 AppArmor 配置见同一 Release 的 `AppImage-README.txt`。两端均支持 SDK 0.11.6 自动下载和 SHA-256 校验：
 
 ```shell
 python -m pip install --upgrade ysbrowser-sdk
@@ -395,4 +395,12 @@ YSbrowser 仅供浏览器兼容性研究、隐私保护、自动化测试和个�
 
 </div>
 
-6.4 的 Windows 包已于 2026-10-31 原位重新发布，修复多语言 Context 的 Intl 构建回退。请先升级 SDK 至 0.11.5.post3，再重新执行浏览器安装；旧 SDK 固定的 Windows 校验值不再匹配。Linux AppImage 保持不变。
+## 6.5 更新（2026-11-04）
+
+Windows 与 Linux 均更新 Chromium 154 系列浏览器及完整字体、语音资源，SDK 0.11.6 默认下载本次的 6.5 资产并校验 SHA-256。旧 6.4 资产保留，不覆盖历史版本。本次不包含 Chromium 156。
+
+Windows 随包提供微软基础语音与可选模型；Linux 使用随包 Speech Dispatcher / eSpeak NG。基础字体保持可见，额外字体由语言和 seed 选择；删除旧 font_profiles，保留 font_locale 和 font_region。
+
+普通命令行示例：`--lang=ms-MY --accept-lang=ms-MY,ms,en-US,en`。`--accept-lang` 不包含 HTTP `;q=` 权重。
+
+[浏览器下载与验证报告](https://github.com/yuese-code/YSbrowser/releases/tag/6.5) · [SDK 0.11.6 使用手册](https://yuese-code.github.io/YSbrowser/sdk/0.11.6/README.html)

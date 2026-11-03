@@ -14,7 +14,7 @@
 
 [English](README-en.md) | [中文](README.md)
 
-[SDK documentation](https://yuese-code.github.io/YSbrowser/sdk/0.11.5.post3/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
+[SDK documentation](https://yuese-code.github.io/YSbrowser/sdk/0.11.6/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
 
 </div>
 
@@ -75,7 +75,7 @@ The same launch options and seeds consistently select the same environment. When
 
 Download the Windows archive from [Releases](https://github.com/yuese-code/YSbrowser/releases), extract it, and run `chrome.exe`.
 
-Release 6.4 provides `chrome.7z` for Windows (entry point: `Chrome-bin/chrome.exe`) and `YSbrowser-154.0.8037.57-ubuntu24.04-x86_64.AppImage` for Ubuntu 24.04 x86_64. The Linux build requires AVX2, FMA and F16C. Make the AppImage executable with `chmod +x`; see the release asset `AppImage-README.txt` for sandbox and AppArmor setup. SDK 0.11.5.post3 downloads the matching platform asset and verifies its pinned SHA-256:
+Release 6.5 provides `chrome.7z` for Windows (entry point: `Chrome-bin/chrome.exe`) and `YSbrowser-154.0.8037.57-ubuntu24.04-x86_64.AppImage` for Ubuntu 24.04 x86_64. The Linux build requires AVX2, FMA and F16C. Make the AppImage executable with `chmod +x`; see the release asset `AppImage-README.txt` for sandbox and AppArmor setup. SDK 0.11.6 downloads the matching platform asset and verifies its pinned SHA-256:
 
 ```shell
 python -m pip install --upgrade ysbrowser-sdk
@@ -392,4 +392,12 @@ If you find this project useful, consider giving it a ⭐
 
 </div>
 
-The Windows asset of release 6.4 was republished in place on 2026-10-31 to restore per-Context Intl locales. Upgrade to SDK 0.11.5.post3 before reinstalling the browser: SDK 0.11.5 pins the previous Windows checksum. The Linux AppImage is unchanged.
+## Release 6.5 (2026-11-04)
+
+Both platforms use the Chromium 154 series; Chromium 156 is not part of this release. SDK 0.11.6 installs the new 6.5 assets with pinned SHA-256 checksums. Previous 6.4 assets remain available.
+
+Windows includes Microsoft baseline and optional speech models. Linux bundles Speech Dispatcher / eSpeak NG instead of Windows DLLs. Base fonts remain visible, with locale and seed selection for region extras. The retired font_profiles directory is removed; font_locale and font_region are included.
+
+For direct command-line launches, pass language tags without HTTP quality weights: `--lang=ms-MY --accept-lang=ms-MY,ms,en-US,en`.
+
+[Downloads and validation](https://github.com/yuese-code/YSbrowser/releases/tag/6.5) · [SDK documentation](https://yuese-code.github.io/YSbrowser/sdk/0.11.6/README.html)
