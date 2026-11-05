@@ -378,9 +378,15 @@ Submit problems through [GitHub Issues](https://github.com/yuese-code/YSbrowser/
 
 </div>
 
+## Browser license
+
+The YSbrowser rights holders license their own independently licensable contributions in the Windows and Linux browser distributions under the [PolyForm Noncommercial License 1.0.0](LICENSE). The license permits use, modification, and redistribution for permitted purposes. Commercial use requires separate written permission from the rights holders. When redistributing, include the license text or its official URL and retain any applicable `Required Notice:` lines.
+
+Chromium, third-party libraries, fonts, and speech models are subject to their respective licenses and copyright notices. Consult the SDK and Agent packages for their respective terms.
+
 ## Disclaimer
 
-YSbrowser is intended solely for browser compatibility research, privacy protection, automated testing, and personal learning. Users must comply with applicable local laws, the terms of service of target websites, and data authorization requirements. This project must not be used for unauthorized access, fraud, attacks, or other unlawful activities.
+YSbrowser is intended for browser compatibility research, privacy protection, automated testing, and personal learning. Users must comply with applicable local laws, the terms of service of target websites, and data authorization requirements. This project must not be used for unauthorized access, fraud, attacks, or other unlawful activities.
 
 This project is provided as is. Browsers, graphics drivers, detection scripts, and website rules continually change. The maintainers do not guarantee continued compatibility with any particular website and accept no liability for data loss, account restrictions, or other losses arising from use of this project.
 
