@@ -14,7 +14,7 @@
 
 [English](README-en.md) | [中文](README.md)
 
-[SDK 使用手册](https://yuese-code.github.io/YSbrowser/sdk/0.11.6/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
+[SDK 使用手册](https://yuese-code.github.io/YSbrowser/sdk/0.11.7/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
 
 </div>
 
@@ -76,7 +76,7 @@ YSbrowser 是基于 Chromium 定制的 Windows / Linux 桌面浏览器。新版�
 
 从 [Releases](https://github.com/yuese-code/YSbrowser/releases) 下载 Windows 压缩包，解压后运行 `chrome.exe`。
 
-6.5 的 Windows 包为 `chrome.7z`，入口为 `Chrome-bin/chrome.exe`。Linux 包为 `YSbrowser-154.0.8037.57-ubuntu24.04-x86_64.AppImage`，面向 Ubuntu 24.04 x86_64，要求 AVX2、FMA、F16C。下载后 `chmod +x` 即可执行，沙箱与 AppArmor 配置见同一 Release 的 `AppImage-README.txt`。两端均支持 SDK 0.11.6 自动下载和 SHA-256 校验：
+6.6 的 Windows 包为 `chrome.7z`，入口为 `Chrome-bin/chrome.exe`。Linux 包为 `YSbrowser-154.0.8037.57-ubuntu24.04-x86_64.AppImage`，面向 Ubuntu 24.04 x86_64，要求 AVX2、FMA、F16C。下载后 `chmod +x` 即可执行，沙箱与 AppArmor 配置见同一 Release 的 `AppImage-README.txt`。两端均支持 SDK 0.11.7 自动下载和 SHA-256 校验：
 
 ```shell
 python -m pip install --upgrade ysbrowser-sdk
@@ -155,7 +155,7 @@ text-seed > fpseed > Chromium 默认行为
 
 `--text-seed=text-01` 选择文字渲染配置；省略时继承 `--fpseed`；显式传入 `--text-seed=` 时关闭文字随机化，即使已经设置了 `--fpseed`。Python SDK 对应 `FingerprintProfile(text_seed="text-01")`；`text_seed=""` 显式关闭，`None` 表示未指定。
 
-`--font-seed` 仅选择可见字体，`--canvas-seed` 控制 Canvas 非文字绘制，两者均不覆盖 `--text-seed`。统一参数需要支持 `textSeed` 能力的新构建，当前已发布的 6.5 构建尚不支持。
+`--font-seed` 仅选择可见字体，`--canvas-seed` 控制 Canvas 非文字绘制，两者均不覆盖 `--text-seed`。此统一参数由 YSbrowser 6.6 与 SDK 0.11.7 提供。
 
 ### 虚拟媒体设备
 
