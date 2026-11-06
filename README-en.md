@@ -40,7 +40,7 @@ The same launch options and seeds consistently select the same environment. When
 - Timezone, language, CPU, memory, and operating system version
 - Screen and device scaling settings
 - Fonts and SpeechSynthesis voice combinations
-- Independent DOMRect and SVGRect configuration
+- Unified Canvas, DOM and SVG text rendering configuration
 - WebRTC candidate address policies
 
 </td>
@@ -122,7 +122,7 @@ For example:
   --webgl-seed="webgl-02"
 ```
 
-Canvas uses `canvas-02`, and WebGL uses `webgl-02`. Other modules that support the general seed derive their configurations from `account-02`.
+Non-text Canvas drawing uses `canvas-02`, and WebGL uses `webgl-02`. Other modules that support the general seed derive their configurations from `account-02`.
 
 The same string always maps to the same configuration. Changing a seed does not guarantee that every hash displayed by every detection website will change, because websites use different drawing content and data collection APIs.
 
@@ -133,21 +133,30 @@ The same string always maps to the same configuration. Changing a seed does not 
 | Option | Example | Description |
 | --- | --- | --- |
 | `--fpseed` | `profile-01` | General configuration seed, used as a fallback by individual modules |
-| `--canvas-seed` | `canvas-01` | Canvas fingerprint |
+| `--canvas-seed` | `canvas-01` | Non-text Canvas drawing |
 | `--webgl-seed` | `webgl-01` | WebGL fingerprint |
 | `--audio-seed` | `audio-01` | OfflineAudioContext output configuration |
-| `--font-seed` | `font-01` | Font fingerprint |
+| `--font-seed` | `font-01` | Visible font selection |
 | `--speech-seed` | `speech-01` | Select a SpeechSynthesis voice combination |
 | `--screen-seed` | `screen-01` | Select an internally consistent desktop screen configuration |
-| `--rect-seed` | `rect-01` | Shared fallback seed for DOMRect and SVGRect |
-| `--domrect-seed` | `dom-01` | Control DOMRect only; takes precedence over `--rect-seed` |
-| `--svgrect-seed` | `svg-01` | Control SVGRect only; takes precedence over `--rect-seed` |
+| `--text-seed` | `text-01` | Shared rendering seed for Canvas, DOM and SVG text |
 
-The precedence for DOMRect and SVGRect is:
+Text rendering uses one shared setting:
 
 ```text
-domrect-seed > rect-seed > fpseed > Default behavior
-svgrect-seed > rect-seed > fpseed > Default behavior
+text-seed > fpseed > Default Chromium behavior
+```
+
+Use `--text-seed=text-01` to select the text rendering configuration. Omit it to inherit `--fpseed`; use `--text-seed=` to disable seeded text rendering even when `--fpseed` is set. The Python SDK field is `FingerprintProfile(text_seed="text-01")`; `text_seed=""` explicitly disables it, while `None` leaves it unspecified.
+
+`--font-seed` only selects visible fonts; `--canvas-seed` controls non-text Canvas drawing. Neither overrides `--text-seed`. This unified option requires the new browser build with `textSeed` capability; the currently published 6.5 build does not support it.
+
+### Virtual Media Devices
+
+`--virtual-media-devices` enables synthetic camera, microphone and audio device entries. Normal website permission checks still apply; it does not automatically grant recording access. Omit the flag when virtual devices are not needed.
+
+```powershell
+.\chrome.exe --user-data-dir="D:\YSbrowser\profiles\media-01" --virtual-media-devices
 ```
 
 ### Server GPU Configuration

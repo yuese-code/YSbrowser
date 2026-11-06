@@ -41,7 +41,7 @@ YSbrowser 是基于 Chromium 定制的 Windows / Linux 桌面浏览器。新版�
 - 时区、语言、CPU、内存和系统版本
 - 屏幕与设备缩放环境
 - 字体与 SpeechSynthesis 语音组合
-- DOMRect 与 SVGRect 独立配置
+- Canvas、DOM、SVG 文字统一渲染配置
 - WebRTC 候选地址策略
 
 </td>
@@ -123,7 +123,7 @@ flowchart LR
   --webgl-seed="webgl-02"
 ```
 
-Canvas 使用 `canvas-02`，WebGL 使用 `webgl-02`；其余支持总体种子的模块从 `account-02` 派生。
+Canvas 非文字绘制使用 `canvas-02`，WebGL 使用 `webgl-02`；其余支持总体种子的模块从 `account-02` 派生。
 
 相同字符串始终映射到相同配置。修改种子后，不保证每个检测网站展示的每一项 hash 都变化，因为网站使用的绘画内容和采集 API 并不相同。
 
@@ -134,21 +134,30 @@ Canvas 使用 `canvas-02`，WebGL 使用 `webgl-02`；其余支持总体种子�
 | 参数 | 示例 | 作用 |
 | --- | --- | --- |
 | `--fpseed` | `profile-01` | 总体配置种子，作为各模块的后备来源 |
-| `--canvas-seed` | `canvas-01` | Canvas 指纹 |
+| `--canvas-seed` | `canvas-01` | Canvas 非文字绘制 |
 | `--webgl-seed` | `webgl-01` | WebGL指纹 |
 | `--audio-seed` | `audio-01` | OfflineAudioContext 输出配置 |
-| `--font-seed` | `font-01` | font指纹 |
+| `--font-seed` | `font-01` | 可见字体选择 |
 | `--speech-seed` | `speech-01` | 选择 SpeechSynthesis 语音组合 |
 | `--screen-seed` | `screen-01` | 选择一套内部一致的桌面屏幕配置 |
-| `--rect-seed` | `rect-01` | DOMRect 与 SVGRect 的共同后备种子 |
-| `--domrect-seed` | `dom-01` | 仅控制 DOMRect，优先于 `--rect-seed` |
-| `--svgrect-seed` | `svg-01` | 仅控制 SVGRect，优先于 `--rect-seed` |
+| `--text-seed` | `text-01` | Canvas、DOM、SVG 文字统一渲染种子 |
 
-DOMRect 和 SVGRect 的优先级分别是：
+文字渲染统一使用以下优先级：
 
 ```text
-domrect-seed > rect-seed > fpseed > 默认行为
-svgrect-seed > rect-seed > fpseed > 默认行为
+text-seed > fpseed > Chromium 默认行为
+```
+
+`--text-seed=text-01` 选择文字渲染配置；省略时继承 `--fpseed`；显式传入 `--text-seed=` 时关闭文字随机化，即使已经设置了 `--fpseed`。Python SDK 对应 `FingerprintProfile(text_seed="text-01")`；`text_seed=""` 显式关闭，`None` 表示未指定。
+
+`--font-seed` 仅选择可见字体，`--canvas-seed` 控制 Canvas 非文字绘制，两者均不覆盖 `--text-seed`。统一参数需要支持 `textSeed` 能力的新构建，当前已发布的 6.5 构建尚不支持。
+
+### 虚拟媒体设备
+
+`--virtual-media-devices` 启用合成摄像头、麦克风和音频设备条目，保留正常的网页权限流程，不会自动允许网站录音录像。不需要虚拟设备时省略该开关。
+
+```powershell
+.\chrome.exe --user-data-dir="D:\YSbrowser\profiles\media-01" --virtual-media-devices
 ```
 
 ### 服务器 GPU 配置
