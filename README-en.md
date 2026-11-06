@@ -136,17 +136,15 @@ The same string always maps to the same configuration. Changing a seed does not 
 | `--canvas-seed` | `canvas-01` | Non-text Canvas drawing |
 | `--webgl-seed` | `webgl-01` | WebGL fingerprint |
 | `--audio-seed` | `audio-01` | OfflineAudioContext output configuration |
-| `--font-seed` | `font-01` | Select eligible locally available extra fonts; see prerequisites below |
-| `--speech-seed` | `speech-01` | Select eligible extra voices from installed local speech engines |
+| `--font-seed` | `font-01` | Font configuration; additional local fonts required |
+| `--speech-seed` | `speech-01` | Voice configuration; additional local voices required |
 | `--screen-seed` | `screen-01` | Select an internally consistent desktop screen configuration |
 | `--text-seed` | `text-01` | Shared rendering seed for Canvas, DOM and SVG text |
 
-**Fonts and voices must be available locally.** `--font-seed` and `--speech-seed` select from eligible resources; they do not download or install fonts or voice models.
+- `--font-seed`: font configuration; requires additional fonts installed locally.
+- `--speech-seed`: voice configuration; requires additional voices installed locally.
 
-- **Windows fonts:** install additional fonts first, including Microsoft optional fonts or third-party fonts. `--lang` filters eligible fonts and `--font-seed` selects which extras are visible. Windows baseline fonts remain visible and are not randomized away. No font files are bundled with the Windows browser.
-- **Windows speech:** baseline voices are bundled. Seed-controlled extras must be installed and registered with a supported local speech engine first; `--lang` selects the language and `--speech-seed` selects 0–3 eligible extra voices. Installing a font does not install a voice model.
-- If there are no matching extras, or two seeds select the same combination, changing the seed may leave the result unchanged. Restart the browser after installing fonts or voices so it can enumerate them again.
-- **Linux:** font and voice selection uses the resources actually available from the Linux package and system. Windows font packages and speech DLLs are not Linux resources.
+Install the required resources before use, then restart the browser. These parameters do not install resources automatically.
 
 Text rendering uses one shared setting:
 
