@@ -136,10 +136,17 @@ The same string always maps to the same configuration. Changing a seed does not 
 | `--canvas-seed` | `canvas-01` | Non-text Canvas drawing |
 | `--webgl-seed` | `webgl-01` | WebGL fingerprint |
 | `--audio-seed` | `audio-01` | OfflineAudioContext output configuration |
-| `--font-seed` | `font-01` | Visible font selection |
-| `--speech-seed` | `speech-01` | Select a SpeechSynthesis voice combination |
+| `--font-seed` | `font-01` | Select eligible locally available extra fonts; see prerequisites below |
+| `--speech-seed` | `speech-01` | Select eligible extra voices from installed local speech engines |
 | `--screen-seed` | `screen-01` | Select an internally consistent desktop screen configuration |
 | `--text-seed` | `text-01` | Shared rendering seed for Canvas, DOM and SVG text |
+
+**Fonts and voices must be available locally.** `--font-seed` and `--speech-seed` select from eligible resources; they do not download or install fonts or voice models.
+
+- **Windows fonts:** install additional fonts first, including Microsoft optional fonts or third-party fonts. `--lang` filters eligible fonts and `--font-seed` selects which extras are visible. Windows baseline fonts remain visible and are not randomized away. No font files are bundled with the Windows browser.
+- **Windows speech:** baseline voices are bundled. Seed-controlled extras must be installed and registered with a supported local speech engine first; `--lang` selects the language and `--speech-seed` selects 0–3 eligible extra voices. Installing a font does not install a voice model.
+- If there are no matching extras, or two seeds select the same combination, changing the seed may leave the result unchanged. Restart the browser after installing fonts or voices so it can enumerate them again.
+- **Linux:** font and voice selection uses the resources actually available from the Linux package and system. Windows font packages and speech DLLs are not Linux resources.
 
 Text rendering uses one shared setting:
 
@@ -406,13 +413,3 @@ This project is provided as is. Browsers, graphics drivers, detection scripts, a
 If you find this project useful, consider giving it a ⭐
 
 </div>
-
-## Release 6.5 (2026-11-04)
-
-Both platforms use the Chromium 154 series; Chromium 156 is not part of this release. SDK 0.11.6 installs the new 6.5 assets with pinned SHA-256 checksums. Previous 6.4 assets remain available.
-
-Windows includes Microsoft baseline and optional speech models. Linux bundles Speech Dispatcher / eSpeak NG instead of Windows DLLs. Base fonts remain visible, with locale and seed selection for region extras. The retired font_profiles directory is removed; font_locale and font_region are included.
-
-For direct command-line launches, pass language tags without HTTP quality weights: `--lang=ms-MY --accept-lang=ms-MY,ms,en-US,en`.
-
-[Downloads and validation](https://github.com/yuese-code/YSbrowser/releases/tag/6.5) · [SDK documentation](https://yuese-code.github.io/YSbrowser/sdk/0.11.6/README.html)

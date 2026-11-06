@@ -137,10 +137,17 @@ Canvas 非文字绘制使用 `canvas-02`，WebGL 使用 `webgl-02`；其余支�
 | `--canvas-seed` | `canvas-01` | Canvas 非文字绘制 |
 | `--webgl-seed` | `webgl-01` | WebGL指纹 |
 | `--audio-seed` | `audio-01` | OfflineAudioContext 输出配置 |
-| `--font-seed` | `font-01` | 可见字体选择 |
-| `--speech-seed` | `speech-01` | 选择 SpeechSynthesis 语音组合 |
+| `--font-seed` | `font-01` | 从本地可用的额外字体中选择，安装要求见下文 |
+| `--speech-seed` | `speech-01` | 从本地已安装语音引擎中选择符合条件的额外语音 |
 | `--screen-seed` | `screen-01` | 选择一套内部一致的桌面屏幕配置 |
 | `--text-seed` | `text-01` | Canvas、DOM、SVG 文字统一渲染种子 |
+
+**字体和语音必须实际可用。** `--font-seed` 和 `--speech-seed` 只从符合条件的资源中选择，不会自动下载或安装字体、语音模型。
+
+- **Windows 字体：** 需要先在本机安装额外字体，可以是微软可选字体，也可以是第三方字体。`--lang` 筛选语言适用的候选，`--font-seed` 决定开放哪些额外字体；系统预装基础字体保持可见，不参与随机隐藏。Windows 浏览器不随包携带字体文件。
+- **Windows 语音：** 基础语音随浏览器打包。受 seed 控制的额外语音，需要先在本机安装并注册到支持的语音引擎；再由 `--lang` 匹配语言，`--speech-seed` 选择 0–3 条符合条件的额外语音。安装字体不等于安装语音模型。
+- 没有匹配的额外资源，或两个 seed 选中了相同组合时，换 seed 也可能看不到变化。安装字体或语音后请重新启动浏览器，让它重新枚举资源。
+- **Linux：** 根据 Linux 包和系统实际提供的字体、语音资源选择，不使用 Windows 字体包或语音 DLL。
 
 文字渲染统一使用以下优先级：
 
@@ -409,13 +416,3 @@ YSbrowser 面向浏览器兼容性研究、隐私保护、自动化测试和个�
 如果这个项目对你有帮助，欢迎点一个 ⭐
 
 </div>
-
-## 6.5 更新（2026-11-04）
-
-Windows 与 Linux 均更新 Chromium 154 系列浏览器及完整字体、语音资源，SDK 0.11.6 默认下载本次的 6.5 资产并校验 SHA-256。旧 6.4 资产保留，不覆盖历史版本。本次不包含 Chromium 156。
-
-Windows 随包提供微软基础语音与可选模型；Linux 使用随包 Speech Dispatcher / eSpeak NG。基础字体保持可见，额外字体由语言和 seed 选择；删除旧 font_profiles，保留 font_locale 和 font_region。
-
-普通命令行示例：`--lang=ms-MY --accept-lang=ms-MY,ms,en-US,en`。`--accept-lang` 不包含 HTTP `;q=` 权重。
-
-[浏览器下载与验证报告](https://github.com/yuese-code/YSbrowser/releases/tag/6.5) · [SDK 0.11.6 使用手册](https://yuese-code.github.io/YSbrowser/sdk/0.11.6/README.html)
