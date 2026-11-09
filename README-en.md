@@ -14,7 +14,7 @@
 
 [English](README-en.md) | [中文](README.md)
 
-[SDK documentation](https://yuese-code.github.io/YSbrowser/sdk/0.11.7/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
+[SDK documentation](https://yuese-code.github.io/YSbrowser/sdk/0.11.8/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
 
 </div>
 
@@ -71,11 +71,23 @@ The same launch options and seeds consistently select the same environment. When
 </tr>
 </table>
 
+## Portable user data
+
+Enable portable user data with `--portable-user-data`:
+
+```shell
+chrome.exe --user-data-dir="D:/YSprofiles/profile-01" --portable-user-data
+```
+
+The same option is available on Linux. Close the browser before copying the entire user data directory, including `Local State`. Existing data must first be migrated in its original environment. Protect the complete directory as account credentials.
+
+SDK 0.11.8 supports `YSBrowser(portable_user_data=True)`; Agent configuration supports `"portable_user_data": true`. This does not make SDK/Agent incognito Contexts persistent or automatically preserve login state.
+
 ## Quick Start
 
 Download the Windows archive from [Releases](https://github.com/yuese-code/YSbrowser/releases), extract it, and run `chrome.exe`.
 
-Release 6.6 provides `chrome.7z` for Windows (entry point: `Chrome-bin/chrome.exe`) and `YSbrowser-154.0.8037.57-ubuntu24.04-x86_64.AppImage` for Ubuntu 24.04 x86_64. The Linux build requires AVX2, FMA and F16C. Make the AppImage executable with `chmod +x`; see the release asset `AppImage-README.txt` for sandbox and AppArmor setup. SDK 0.11.7 downloads the matching platform asset and verifies its pinned SHA-256:
+Release 6.7 provides `chrome.7z` for Windows (entry point: `Chrome-bin/chrome.exe`) and `YSbrowser-154.0.8037.57-ubuntu24.04-x86_64.AppImage` for Ubuntu 24.04 x86_64. The Linux build requires AVX2, FMA and F16C. Make the AppImage executable with `chmod +x`; see the release asset `AppImage-README.txt` for sandbox and AppArmor setup. SDK 0.11.8 downloads the matching platform asset and verifies its pinned SHA-256:
 
 ```shell
 python -m pip install --upgrade ysbrowser-sdk
@@ -154,7 +166,7 @@ text-seed > fpseed > Default Chromium behavior
 
 Use `--text-seed=text-01` to select the text rendering configuration. Omit it to inherit `--fpseed`; use `--text-seed=` to disable seeded text rendering even when `--fpseed` is set. The Python SDK field is `FingerprintProfile(text_seed="text-01")`; `text_seed=""` explicitly disables it, while `None` leaves it unspecified.
 
-`--font-seed` only selects visible fonts; `--canvas-seed` controls non-text Canvas drawing. Neither overrides `--text-seed`. This unified option is available in YSbrowser 6.6 with SDK 0.11.7.
+`--font-seed` only selects visible fonts; `--canvas-seed` controls non-text Canvas drawing. Neither overrides `--text-seed`. This unified option is available in YSbrowser 6.7 with SDK 0.11.8.
 
 ### Virtual Media Devices
 

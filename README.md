@@ -14,7 +14,7 @@
 
 [English](README-en.md) | [中文](README.md)
 
-[SDK 使用手册](https://yuese-code.github.io/YSbrowser/sdk/0.11.7/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
+[SDK 使用手册](https://yuese-code.github.io/YSbrowser/sdk/0.11.8/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
 
 </div>
 
@@ -76,7 +76,7 @@ YSbrowser 是基于 Chromium 定制的 Windows / Linux 桌面浏览器。新版�
 
 从 [Releases](https://github.com/yuese-code/YSbrowser/releases) 下载 Windows 压缩包，解压后运行 `chrome.exe`。
 
-6.6 的 Windows 包为 `chrome.7z`，入口为 `Chrome-bin/chrome.exe`。Linux 包为 `YSbrowser-154.0.8037.57-ubuntu24.04-x86_64.AppImage`，面向 Ubuntu 24.04 x86_64，要求 AVX2、FMA、F16C。下载后 `chmod +x` 即可执行，沙箱与 AppArmor 配置见同一 Release 的 `AppImage-README.txt`。两端均支持 SDK 0.11.7 自动下载和 SHA-256 校验：
+6.7 的 Windows 包为 `chrome.7z`，入口为 `Chrome-bin/chrome.exe`。Linux 包为 `YSbrowser-154.0.8037.57-ubuntu24.04-x86_64.AppImage`，面向 Ubuntu 24.04 x86_64，要求 AVX2、FMA、F16C。下载后 `chmod +x` 即可执行，沙箱与 AppArmor 配置见同一 Release 的 `AppImage-README.txt`。两端均支持 SDK 0.11.8 自动下载和 SHA-256 校验：
 
 ```shell
 python -m pip install --upgrade ysbrowser-sdk
@@ -127,6 +127,18 @@ Canvas 非文字绘制使用 `canvas-02`，WebGL 使用 `webgl-02`；其余支�
 
 相同字符串始终映射到相同配置。修改种子后，不保证每个检测网站展示的每一项 hash 都变化，因为网站使用的绘画内容和采集 API 并不相同。
 
+## 便携用户数据
+
+使用 `--portable-user-data` 开启便携用户数据模式：
+
+```shell
+chrome.exe --user-data-dir="D:/YSprofiles/profile-01" --portable-user-data
+```
+
+Linux 同样支持该参数。迁移前关闭浏览器，完整复制用户目录（包括 `Local State`）；已有资料需先在原环境迁移。请妥善保管整个目录。
+
+SDK 0.11.8 支持 `YSBrowser(portable_user_data=True)`，Agent 配置支持 `"portable_user_data": true`。此选项不改变 SDK／Agent 的无痕 Context 语义，也不自动持久化登录状态。
+
 ## 命令行参数
 
 ### 总体与模块种子
@@ -155,7 +167,7 @@ text-seed > fpseed > Chromium 默认行为
 
 `--text-seed=text-01` 选择文字渲染配置；省略时继承 `--fpseed`；显式传入 `--text-seed=` 时关闭文字随机化，即使已经设置了 `--fpseed`。Python SDK 对应 `FingerprintProfile(text_seed="text-01")`；`text_seed=""` 显式关闭，`None` 表示未指定。
 
-`--font-seed` 仅选择可见字体，`--canvas-seed` 控制 Canvas 非文字绘制，两者均不覆盖 `--text-seed`。此统一参数由 YSbrowser 6.6 与 SDK 0.11.7 提供。
+`--font-seed` 仅选择可见字体，`--canvas-seed` 控制 Canvas 非文字绘制，两者均不覆盖 `--text-seed`。此统一参数由 YSbrowser 6.7 与 SDK 0.11.8 提供。
 
 ### 虚拟媒体设备
 
