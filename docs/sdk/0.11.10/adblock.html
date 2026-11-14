@@ -1,0 +1,96 @@
+<!doctype html><html lang="zh-CN" data-doc-root=""><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>广告与跟踪请求过滤 · YSbrowser 文档</title><link rel="stylesheet" href="assets/theme.css"></head><body>
+<a class="skip" href="#doc-main">跳到正文</a><header class="topbar"><button class="icon-button menu-button" id="menu-toggle" aria-label="打开目录">目录</button><a class="brand" href="README.html"><span class="brand-icon">YS</span><span class="brand-label">YSbrowser</span><span class="version">0.11.10</span></a><button class="search-open" id="search-open"><span>搜索文档与 API</span><kbd>Ctrl K</kbd></button><button class="icon-button font-button" id="font-toggle" aria-label="切换大字号">字号 A+</button><button class="icon-button" id="theme-toggle" aria-label="切换明暗主题">明 / 暗</button></header>
+<nav class="sidebar" aria-label="手册目录"><div class="nav-label">使用指南</div><a href="README.html">开始使用</a><a href="installation.html">安装与快速开始</a><a href="browser-context.html">浏览器与 Context</a><a href="fingerprint.html">指纹与 GPU</a><a href="context-options.html">Context 选项</a><a href="proxy.html">代理与出口检查</a><a href="adblock.html" aria-current="page">广告过滤</a><a href="storage.html">配置与登录状态</a><a href="mouse.html">鼠标操作总览</a><a href="drag-element.html">drag_element 详解</a><a href="result-structures.html">返回结构速查</a><a href="page-locator.html">页面与定位器</a><a href="diagnostics-errors.html">诊断与异常</a><a href="troubleshooting.html">常见问题</a><a href="examples/README.html">可运行示例</a><details><summary>SDK 类型参考</summary><div class="nested"><a href="api-reference.html">全部 SDK 类型</a><a href="reference/BrowserCapabilities.html">BrowserCapabilities</a><a href="reference/CompatibilityError.html">CompatibilityError</a><a href="reference/ConfigurationError.html">ConfigurationError</a><a href="reference/ContextConfig.html">ContextConfig</a><a href="reference/ContextOptions.html">ContextOptions</a><a href="reference/Direct.html">Direct</a><a href="reference/FingerprintLockedError.html">FingerprintLockedError</a><a href="reference/FingerprintProfile.html">FingerprintProfile</a><a href="reference/MotionExecution.html">MotionExecution</a><a href="reference/MotionPlan.html">MotionPlan</a><a href="reference/MotionRequest.html">MotionRequest</a><a href="reference/MultitaskMouseModel.html">MultitaskMouseModel</a><a href="reference/ProxyCheck.html">ProxyCheck</a><a href="reference/ProxyCheckError.html">ProxyCheckError</a><a href="reference/ProxyConfig.html">ProxyConfig</a><a href="reference/ProxyHealthResult.html">ProxyHealthResult</a><a href="reference/ProxyStatus.html">ProxyStatus</a><a href="reference/SDKError.html">SDKError</a><a href="reference/TrajectoryModel.html">TrajectoryModel</a><a href="reference/TrajectoryMouse.html">TrajectoryMouse</a><a href="reference/TrajectoryPrediction.html">TrajectoryPrediction</a><a href="reference/YSBrowser.html">YSBrowser</a><a href="reference/YSContext.html">YSContext</a></div></details><details><summary>Patchright 原生参考</summary><div class="nested"><a href="native-reference/README.html">原生对象目录</a><a href="native-reference/APIRequest.html">APIRequest</a><a href="native-reference/APIRequestContext.html">APIRequestContext</a><a href="native-reference/APIResponse.html">APIResponse</a><a href="native-reference/APIResponseAssertions.html">APIResponseAssertions</a><a href="native-reference/Browser.html">Browser</a><a href="native-reference/BrowserContext.html">BrowserContext</a><a href="native-reference/BrowserType.html">BrowserType</a><a href="native-reference/CDPSession.html">CDPSession</a><a href="native-reference/Clock.html">Clock</a><a href="native-reference/ConsoleMessage.html">ConsoleMessage</a><a href="native-reference/Credentials.html">Credentials</a><a href="native-reference/Debugger.html">Debugger</a><a href="native-reference/Dialog.html">Dialog</a><a href="native-reference/Disposable.html">Disposable</a><a href="native-reference/Download.html">Download</a><a href="native-reference/ElementHandle.html">ElementHandle</a><a href="native-reference/Expect.html">Expect</a><a href="native-reference/FileChooser.html">FileChooser</a><a href="native-reference/FormData.html">FormData</a><a href="native-reference/Frame.html">Frame</a><a href="native-reference/FrameLocator.html">FrameLocator</a><a href="native-reference/JSHandle.html">JSHandle</a><a href="native-reference/Keyboard.html">Keyboard</a><a href="native-reference/Locator.html">Locator</a><a href="native-reference/LocatorAssertions.html">LocatorAssertions</a><a href="native-reference/Mouse.html">Mouse</a><a href="native-reference/Page.html">Page</a><a href="native-reference/PageAssertions.html">PageAssertions</a><a href="native-reference/Playwright.html">Playwright</a><a href="native-reference/Request.html">Request</a><a href="native-reference/Response.html">Response</a><a href="native-reference/Route.html">Route</a><a href="native-reference/Screencast.html">Screencast</a><a href="native-reference/Selectors.html">Selectors</a><a href="native-reference/Touchscreen.html">Touchscreen</a><a href="native-reference/Tracing.html">Tracing</a><a href="native-reference/Video.html">Video</a><a href="native-reference/WebError.html">WebError</a><a href="native-reference/WebMCP.html">WebMCP</a><a href="native-reference/WebSocket.html">WebSocket</a><a href="native-reference/WebSocketRoute.html">WebSocketRoute</a><a href="native-reference/WebStorage.html">WebStorage</a><a href="native-reference/Worker.html">Worker</a><a href="native-reference/types.html">原生输入输出结构</a></div></details><div class="footnote">SDK 0.11.10 · Windows / Linux<br>离线可读 · Ctrl K 搜索</div></nav><main id="doc-main"><div class="eyebrow"><span></span>使用指南 / YSBROWSER SDK</div><h1 id="广告与跟踪请求过滤">广告与跟踪请求过滤</h1>
+<p>需要包含原生广告过滤接口的 YSbrowser 构建。新版浏览器的 SDK Context 默认使用 Standard；旧版浏览器不会被误报为已开启，显式配置时会提示升级。</p>
+<div class="code-block"><div class="code-toolbar"><span>Python</span><button class="copy-code" type="button" aria-label="复制代码">复制代码</button></div><pre class="highlight"><code><span class="kn">from</span><span class="w"> </span><span class="nn">ysbrowser_sdk.sync_api</span><span class="w"> </span><span class="kn">import</span> <span class="n">YSBrowser</span><span class="p">,</span> <span class="n">AdblockConfig</span><span class="p">,</span> <span class="n">filter_catalog</span>
+
+<span class="k">with</span> <span class="n">YSBrowser</span><span class="p">(</span><span class="s2">"/path/to/chrome"</span><span class="p">,</span> <span class="n">headless</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">browser</span><span class="p">:</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">browser</span><span class="o">.</span><span class="n">new_context</span><span class="p">(</span><span class="n">adblock</span><span class="o">=</span><span class="n">AdblockConfig</span><span class="p">(</span>
+        <span class="n">mode</span><span class="o">=</span><span class="s2">"standard"</span><span class="p">,</span> <span class="n">lists</span><span class="o">=</span><span class="p">(</span><span class="s2">"easylist"</span><span class="p">,</span> <span class="s2">"easyprivacy"</span><span class="p">)))</span>
+    <span class="n">page</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">new_page</span><span class="p">()</span>
+    <span class="n">page</span><span class="o">.</span><span class="n">goto</span><span class="p">(</span><span class="s2">"https://example.com"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">adblock_status</span><span class="p">())</span>
+</code></pre></div>
+<p>模式为 <code>standard</code>、<code>aggressive</code>、<code>disabled</code>。Standard 对基础列表主要过滤第三方请求；Aggressive 同时处理网站自身请求。手动选择的可选、自定义列表可过滤第一方请求。Disabled 停止广告过滤，不修改代理或指纹配置。对现有 Context 调用 <code>set_adblock()</code> 可更新规则；已完成的请求不会撤销，刷新页面可重新加载。</p>
+<p><code>filter_catalog()</code> 返回可选列表 ID、名称和来源网址，不下载规则。<code>lists</code> 明确指定选中列表，<code>custom_urls</code> 接收 HTTPS 文本订阅网址。第一次使用下载到本机缓存，后续按有效期复用，并使用 ETag/Last-Modified 检查更新。每个 Context 在页面创建前完成规则加载；远程浏览器通过 CDP 接收规则内容，不要求远程主机拥有相同缓存路径。</p>
+<p><code>cache_dir</code> 自定义缓存目录；<code>offline=True</code> 禁止下载，缺失或损坏时报错；默认 <code>allow_stale=True</code> 在更新失败时允许使用已校验的旧缓存，状态中的 <code>stale</code> 会标明。默认 24 小时检查更新。规则缓存共享，Context 的模式、网站例外与统计独立。</p>
+<p>异步 API 的配置相同，使用 <code>await browser.new_context(...)</code> 和 <code>await context.set_adblock(...)</code>。<code>ContextConfig(adblock=...)</code> 支持导出与恢复。</p>
+<p>直接命令行启动可先生成快照：</p>
+<div class="code-block"><div class="code-toolbar"><span>文本</span><button class="copy-code" type="button" aria-label="复制代码">复制代码</button></div><pre class="highlight"><code>ysbrowser-sdk adblock-lists
+ysbrowser-sdk adblock-prepare --mode standard --list easylist --list easyprivacy --output rules.json
+chrome --adblock-mode=standard --adblock-rules=/absolute/path/rules.json
+</code></pre></div>
+<p>Windows 可将最后一行替换为实际 <code>ysbrowser.exe</code> 路径。浏览器不自动安装全部列表；无规则时弹窗明确提示尚未加载。工具栏只提供本站三模式选择、已拦截请求数量及可展开详情。详情最多保留最近 256 条，请求 URL 去除查询参数和凭据。</p>
+<p>执行范围包括网络请求、HTTP 重定向检查、页面和 Worker WebSocket、固定本地替代资源、CSS 隐藏和 scriptlet。<code>adblock_status()</code> 返回实际能力与列表统计。拦截计数仅统计网络请求，不把隐藏元素或脚本执行次数混入。</p>
+<p><code>rule_scope=&quot;network&quot;</code> 只执行网络过滤；<code>rule_scope=&quot;all&quot;</code> 可分别通过 <code>cosmetic=False</code> 或 <code>scriptlets=False</code> 关闭页面过滤的一部分。命令行快照支持 <code>--rule-scope network</code>、<code>--no-cosmetic</code>、<code>--no-scriptlets</code>。旧浏览器没有完整能力时，显式请求完整范围会报兼容性错误，不会静默宣称生效。</p>
+<p>普通 CSS 隐藏保留 DOM，原始字段仍可读取；列表中显式的 <code>:remove()</code> 等动作会修改 DOM。动态元素、开放的 Shadow DOM 与子框架会重新检查。Standard 的基础隐藏规则主要处理第三方内容，Aggressive 同时处理第一方；主动选择的可选、自定义列表可以处理第一方。scriptlet 在匹配文档的页面脚本之前运行，只能调用随引擎固定的资源函数，不执行订阅中的任意原始 JavaScript，特权 <code>trusted-*</code> 资源不会向普通订阅开放。</p>
+<p>模式或配置更新会恢复仍由过滤器控制的隐藏样式；已执行的脚本和删除动作不能撤销，需要重新加载文档。SDK 和工具栏不会为此自动刷新业务页面。CSS 隐藏、脚本注入和网络拦截均可能影响网站功能，采集完整性必须以原始字段校验为准。</p>
+<p>引擎固定为 Brave adblock-rust 0.13.5，脚本与替代资源固定版本。随浏览器提供 <code>ys_adblock_NOTICES.txt</code>、对应引擎及资源源码归档和许可证；过滤列表仍由 SDK 按需下载。</p>
+<h2 id="sdk-api-与原生-cdp">SDK API 与原生 CDP</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>SDK API</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>browser.new_context(adblock=AdblockConfig(...))</code></td>
+<td>页面创建前配置过滤</td>
+</tr>
+<tr>
+<td><code>context.set_adblock(config)</code></td>
+<td>修改当前 Context 的完整过滤配置</td>
+</tr>
+<tr>
+<td><code>context.adblock_status()</code></td>
+<td>读取能力、模式、列表与网络拦截统计</td>
+</tr>
+<tr>
+<td><code>filter_catalog()</code></td>
+<td>枚举可选列表，不触发下载</td>
+</tr>
+</tbody>
+</table></div>
+<p>同步 API 无需 <code>await</code>；异步 API 的三个浏览器/Context 方法需要 <code>await</code>。<code>set_adblock</code> 接收完整配置，而非部分字段补丁。</p>
+<p>第三方 CDP 客户端也可连接配套 YSbrowser 的浏览器级会话，使用以下扩展命令；原版 Chrome 不提供这些命令。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>输入</th>
+<th>返回</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Browser.setAdblockConfiguration</code></td>
+<td><code>configuration</code>：JSON 字符串；<code>browserContextId</code>：可选</td>
+<td><code>status</code>：JSON 字符串</td>
+</tr>
+<tr>
+<td><code>Browser.getAdblockStatus</code></td>
+<td><code>browserContextId</code>：可选</td>
+<td><code>status</code>：JSON 字符串</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code-block"><div class="code-toolbar"><span>Python · 异步</span><button class="copy-code" type="button" aria-label="复制代码">复制代码</button></div><pre class="highlight"><code><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ysbrowser_sdk</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdblockConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ysbrowser_sdk.adblock</span><span class="w"> </span><span class="kn">import</span> <span class="n">prepare_adblock</span>
+
+<span class="c1"># cdp 为客户端的浏览器级 CDP 会话；context_id 来自创建 Context 的返回值。</span>
+<span class="n">snapshot</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">to_thread</span><span class="p">(</span><span class="n">prepare_adblock</span><span class="p">,</span> <span class="n">AdblockConfig</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"standard"</span><span class="p">))</span>
+<span class="n">reply</span> <span class="o">=</span> <span class="k">await</span> <span class="n">cdp</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">"Browser.setAdblockConfiguration"</span><span class="p">,</span> <span class="p">{</span>
+    <span class="s2">"browserContextId"</span><span class="p">:</span> <span class="n">context_id</span><span class="p">,</span>
+    <span class="s2">"configuration"</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">snapshot</span><span class="p">),</span>
+<span class="p">})</span>
+<span class="n">status</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">reply</span><span class="p">[</span><span class="s2">"status"</span><span class="p">])</span>
+<span class="n">reply</span> <span class="o">=</span> <span class="k">await</span> <span class="n">cdp</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">"Browser.getAdblockStatus"</span><span class="p">,</span> <span class="p">{</span><span class="s2">"browserContextId"</span><span class="p">:</span> <span class="n">context_id</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">reply</span><span class="p">[</span><span class="s2">"status"</span><span class="p">]))</span>
+</code></pre></div>
+<p>快照中包含实际规则文本。CDP 不根据过滤列表 ID 自行下载订阅；建议使用 SDK 准备快照，再传递给本地或远程浏览器。不要把 SDK <code>AdblockConfig.to_dict()</code> 直接当作原生规则快照发送。</p>
+<footer class="page-footer"><span>适用 SDK 0.11.10 · Patchright 1.64.2</span><a href="#doc-main">返回顶部 ↑</a></footer></main><aside class="toc"><div class="toc-title">本页目录</div><a class="level2" href="#sdk-api-与原生-cdp">SDK API 与原生 CDP</a></aside>
+<dialog id="search-dialog" aria-label="搜索文档"><div class="search-head"><input id="search-input" type="search" placeholder="搜索 API、参数或常见问题" autocomplete="off" aria-label="搜索关键词"><button class="icon-button" id="search-close">关闭</button></div><div class="search-body" id="search-results"></div><div class="search-bottom">本地全文索引，无需联网 · Esc 关闭</div></dialog><script src="assets/search-index.js"></script><script src="assets/app.js"></script></body></html>
