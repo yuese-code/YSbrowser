@@ -1,0 +1,371 @@
+<!doctype html><html lang="zh-CN" data-doc-root=""><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>广告与跟踪请求过滤 · YSbrowser 文档</title><link rel="stylesheet" href="assets/theme.css"></head><body>
+<a class="skip" href="#doc-main">跳到正文</a><header class="topbar"><button class="icon-button menu-button" id="menu-toggle" aria-label="打开目录">目录</button><a class="brand" href="README.html"><span class="brand-icon">YS</span><span class="brand-label">YSbrowser</span><span class="version">0.11.11</span></a><button class="search-open" id="search-open"><span>搜索文档与 API</span><kbd>Ctrl K</kbd></button><button class="icon-button font-button" id="font-toggle" aria-label="切换大字号">字号 A+</button><button class="icon-button" id="theme-toggle" aria-label="切换明暗主题">明 / 暗</button></header>
+<nav class="sidebar" aria-label="手册目录"><div class="nav-label">使用指南</div><a href="README.html">开始使用</a><a href="installation.html">安装与快速开始</a><a href="browser-context.html">浏览器与 Context</a><a href="fingerprint.html">指纹与 GPU</a><a href="context-options.html">Context 选项</a><a href="proxy.html">代理与出口检查</a><a href="adblock.html" aria-current="page">广告过滤</a><a href="storage.html">配置与登录状态</a><a href="mouse.html">鼠标操作总览</a><a href="drag-element.html">drag_element 详解</a><a href="result-structures.html">返回结构速查</a><a href="page-locator.html">页面与定位器</a><a href="diagnostics-errors.html">诊断与异常</a><a href="troubleshooting.html">常见问题</a><a href="examples/README.html">可运行示例</a><details><summary>SDK 类型参考</summary><div class="nested"><a href="api-reference.html">全部 SDK 类型</a><a href="reference/BrowserCapabilities.html">BrowserCapabilities</a><a href="reference/CompatibilityError.html">CompatibilityError</a><a href="reference/ConfigurationError.html">ConfigurationError</a><a href="reference/ContextConfig.html">ContextConfig</a><a href="reference/ContextOptions.html">ContextOptions</a><a href="reference/Direct.html">Direct</a><a href="reference/FingerprintLockedError.html">FingerprintLockedError</a><a href="reference/FingerprintProfile.html">FingerprintProfile</a><a href="reference/MotionExecution.html">MotionExecution</a><a href="reference/MotionPlan.html">MotionPlan</a><a href="reference/MotionRequest.html">MotionRequest</a><a href="reference/MultitaskMouseModel.html">MultitaskMouseModel</a><a href="reference/ProxyCheck.html">ProxyCheck</a><a href="reference/ProxyCheckError.html">ProxyCheckError</a><a href="reference/ProxyConfig.html">ProxyConfig</a><a href="reference/ProxyHealthResult.html">ProxyHealthResult</a><a href="reference/ProxyStatus.html">ProxyStatus</a><a href="reference/SDKError.html">SDKError</a><a href="reference/TrajectoryModel.html">TrajectoryModel</a><a href="reference/TrajectoryMouse.html">TrajectoryMouse</a><a href="reference/TrajectoryPrediction.html">TrajectoryPrediction</a><a href="reference/YSBrowser.html">YSBrowser</a><a href="reference/YSContext.html">YSContext</a></div></details><details><summary>Patchright 原生参考</summary><div class="nested"><a href="native-reference/README.html">原生对象目录</a><a href="native-reference/APIRequest.html">APIRequest</a><a href="native-reference/APIRequestContext.html">APIRequestContext</a><a href="native-reference/APIResponse.html">APIResponse</a><a href="native-reference/APIResponseAssertions.html">APIResponseAssertions</a><a href="native-reference/Browser.html">Browser</a><a href="native-reference/BrowserContext.html">BrowserContext</a><a href="native-reference/BrowserType.html">BrowserType</a><a href="native-reference/CDPSession.html">CDPSession</a><a href="native-reference/Clock.html">Clock</a><a href="native-reference/ConsoleMessage.html">ConsoleMessage</a><a href="native-reference/Credentials.html">Credentials</a><a href="native-reference/Debugger.html">Debugger</a><a href="native-reference/Dialog.html">Dialog</a><a href="native-reference/Disposable.html">Disposable</a><a href="native-reference/Download.html">Download</a><a href="native-reference/ElementHandle.html">ElementHandle</a><a href="native-reference/Expect.html">Expect</a><a href="native-reference/FileChooser.html">FileChooser</a><a href="native-reference/FormData.html">FormData</a><a href="native-reference/Frame.html">Frame</a><a href="native-reference/FrameLocator.html">FrameLocator</a><a href="native-reference/JSHandle.html">JSHandle</a><a href="native-reference/Keyboard.html">Keyboard</a><a href="native-reference/Locator.html">Locator</a><a href="native-reference/LocatorAssertions.html">LocatorAssertions</a><a href="native-reference/Mouse.html">Mouse</a><a href="native-reference/Page.html">Page</a><a href="native-reference/PageAssertions.html">PageAssertions</a><a href="native-reference/Playwright.html">Playwright</a><a href="native-reference/Request.html">Request</a><a href="native-reference/Response.html">Response</a><a href="native-reference/Route.html">Route</a><a href="native-reference/Screencast.html">Screencast</a><a href="native-reference/Selectors.html">Selectors</a><a href="native-reference/Touchscreen.html">Touchscreen</a><a href="native-reference/Tracing.html">Tracing</a><a href="native-reference/Video.html">Video</a><a href="native-reference/WebError.html">WebError</a><a href="native-reference/WebMCP.html">WebMCP</a><a href="native-reference/WebSocket.html">WebSocket</a><a href="native-reference/WebSocketRoute.html">WebSocketRoute</a><a href="native-reference/WebStorage.html">WebStorage</a><a href="native-reference/Worker.html">Worker</a><a href="native-reference/types.html">原生输入输出结构</a></div></details><div class="footnote">SDK 0.11.11 · Windows / Linux<br>离线可读 · Ctrl K 搜索</div></nav><main id="doc-main"><div class="eyebrow"><span></span>使用指南 / YSBROWSER SDK</div><h1 id="广告与跟踪请求过滤">广告与跟踪请求过滤</h1>
+<p>需要包含原生广告过滤接口的 YSbrowser 构建。新版浏览器的 SDK Context 默认使用 Standard；旧版浏览器不会被误报为已开启，显式配置时会提示升级。</p>
+<div class="code-block"><div class="code-toolbar"><span>Python</span><button class="copy-code" type="button" aria-label="复制代码">复制代码</button></div><pre class="highlight"><code><span class="kn">from</span><span class="w"> </span><span class="nn">ysbrowser_sdk.sync_api</span><span class="w"> </span><span class="kn">import</span> <span class="n">YSBrowser</span><span class="p">,</span> <span class="n">AdblockConfig</span><span class="p">,</span> <span class="n">filter_catalog</span>
+
+<span class="k">with</span> <span class="n">YSBrowser</span><span class="p">(</span><span class="s2">"/path/to/chrome"</span><span class="p">,</span> <span class="n">headless</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">browser</span><span class="p">:</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">browser</span><span class="o">.</span><span class="n">new_context</span><span class="p">(</span><span class="n">adblock</span><span class="o">=</span><span class="n">AdblockConfig</span><span class="p">(</span>
+        <span class="n">mode</span><span class="o">=</span><span class="s2">"standard"</span><span class="p">,</span> <span class="n">lists</span><span class="o">=</span><span class="p">(</span><span class="s2">"easylist"</span><span class="p">,</span> <span class="s2">"easyprivacy"</span><span class="p">)))</span>
+    <span class="n">page</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">new_page</span><span class="p">()</span>
+    <span class="n">page</span><span class="o">.</span><span class="n">goto</span><span class="p">(</span><span class="s2">"https://example.com"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">adblock_status</span><span class="p">())</span>
+</code></pre></div>
+<p>模式为 <code>standard</code>、<code>aggressive</code>、<code>disabled</code>。Standard 对基础列表主要过滤第三方请求；Aggressive 同时处理网站自身请求。手动选择的可选、自定义列表可过滤第一方请求。Disabled 停止广告过滤，不修改代理或指纹配置。对现有 Context 调用 <code>set_adblock()</code> 可更新规则；已完成的请求不会撤销，刷新页面可重新加载。</p>
+<p><code>filter_catalog()</code> 返回可选列表 ID、名称和来源网址，不下载规则。<code>lists</code> 明确指定选中列表，<code>custom_urls</code> 接收 HTTPS 文本订阅网址。第一次使用下载到本机缓存，后续按有效期复用，并使用 ETag/Last-Modified 检查更新。每个 Context 在页面创建前完成规则加载；远程浏览器通过 CDP 接收规则内容，不要求远程主机拥有相同缓存路径。</p>
+<p><code>cache_dir</code> 自定义缓存目录；<code>offline=True</code> 禁止下载，缺失或损坏时报错；默认 <code>allow_stale=True</code> 在更新失败时允许使用已校验的旧缓存，状态中的 <code>stale</code> 会标明。默认 24 小时检查更新。规则缓存共享，Context 的模式、网站例外与统计独立。</p>
+<p>异步 API 的配置相同，使用 <code>await browser.new_context(...)</code> 和 <code>await context.set_adblock(...)</code>。<code>ContextConfig(adblock=...)</code> 支持导出与恢复。</p>
+<p>直接命令行启动可先生成快照：</p>
+<div class="code-block"><div class="code-toolbar"><span>文本</span><button class="copy-code" type="button" aria-label="复制代码">复制代码</button></div><pre class="highlight"><code>ysbrowser-sdk adblock-lists
+ysbrowser-sdk adblock-prepare --mode standard --list easylist --list easyprivacy --output rules.json
+chrome --adblock-mode=standard --adblock-rules=/absolute/path/rules.json
+</code></pre></div>
+<p>Windows 可将最后一行替换为实际 <code>ysbrowser.exe</code> 路径。浏览器不自动安装全部列表；无规则时弹窗明确提示尚未加载。工具栏提供本站三模式选择、已拦截请求数量、可展开详情和“过滤列表”入口。详情最多保留最近 256 条，请求 URL 去除查询参数和凭据。</p>
+<p>执行范围包括网络请求、HTTP 重定向检查、页面和 Worker WebSocket、固定本地替代资源、CSS 隐藏和 scriptlet。<code>adblock_status()</code> 返回实际能力与列表统计。拦截计数仅统计网络请求，不把隐藏元素或脚本执行次数混入。</p>
+<p><code>rule_scope=&quot;network&quot;</code> 只执行网络过滤；<code>rule_scope=&quot;all&quot;</code> 可分别通过 <code>cosmetic=False</code> 或 <code>scriptlets=False</code> 关闭页面过滤的一部分。命令行快照支持 <code>--rule-scope network</code>、<code>--no-cosmetic</code>、<code>--no-scriptlets</code>。旧浏览器没有完整能力时，显式请求完整范围会报兼容性错误，不会静默宣称生效。</p>
+<p>可直接隐藏的可选列表规则及激进模式 CSS 规则在文档起始阶段注入原生用户样式表，后续匹配元素也受样式控制。需要发现新 class/id 或检查动态条件的规则仍按需处理，不能保证所有页面的所有广告都在首帧前消失。</p>
+<p>普通 CSS 隐藏保留 DOM，原始字段仍可读取；列表中显式的 <code>:remove()</code> 等动作会修改 DOM。动态元素、开放的 Shadow DOM 与子框架会重新检查。Standard 的基础隐藏规则主要处理第三方内容，Aggressive 同时处理第一方；主动选择的可选、自定义列表可以处理第一方。scriptlet 在匹配文档的页面脚本之前运行，只能调用随引擎固定的资源函数，不执行订阅中的任意原始 JavaScript，特权 <code>trusted-*</code> 资源不会向普通订阅开放。</p>
+<p>模式或配置更新会恢复仍由过滤器控制的隐藏样式；已执行的脚本和删除动作不能撤销，需要重新加载文档。工具栏手动切换本站模式会自动刷新当前页面；SDK / CDP 更新配置不会隐式刷新业务页面，需要时由调用方重新加载。CSS 隐藏、脚本注入和网络拦截均可能影响网站功能，采集完整性必须以原始字段校验为准。</p>
+<p>引擎固定为 Brave adblock-rust 0.13.5，脚本与替代资源固定版本。随浏览器提供 <code>ys_adblock_NOTICES.txt</code>、对应引擎及资源源码归档和许可证；过滤列表由 SDK 或浏览器设置页按需下载，不随浏览器预置完整规则。</p>
+<h2 id="手动操作浏览器">手动操作浏览器</h2>
+<p>点击工具栏盾牌 → <strong>过滤列表</strong>，或在地址栏打开 <code>chrome://ys-adblock/</code>。可以搜索和勾选下方列出的 56 个列表，也可以添加 HTTPS 自定义订阅（最多 32 个）。</p>
+<p>点击“保存并应用”后，浏览器下载缺失的规则；“更新已选列表”会主动检查更新。更新失败时，有已校验缓存的订阅继续使用缓存；新订阅下载失败则保留原有配置。页面显示处理进度与错误，可取消下载。保存后刷新已打开的网页，使新规则完整生效。</p>
+<p>普通用户目录保存选择和规则缓存，重启后恢复，已选列表每 24 小时检查更新。无痕或独立 Context 的设置仅在该会话内生效。显式 SDK / CDP 配置优先，不会被后台订阅更新覆盖。每个来源最大 16 MiB，所选来源合计最大 48 MiB。</p>
+<h2 id="lists-支持的过滤列表"><code>lists</code> 支持的过滤列表</h2>
+<p>当前 SDK 提供 <strong>56 个列表</strong>：2 个默认基础列表和 54 个可选列表。下表的 <code>lists</code> 值可直接复制，区分大小写；显示名称不是配置 ID。</p>
+<p>省略 <code>lists</code> 时使用 <code>(&quot;easylist&quot;, &quot;easyprivacy&quot;)</code>。显式传入 <code>lists</code> 会替换默认选择，而不是追加；如需保留基础拦截，请一并写上这两个 ID。可选列表不会根据浏览器语言自动全部启用，也不会全部下载。</p>
+<p>例如，保留基础列表并增加中文广告过滤：</p>
+<div class="code-block"><div class="code-toolbar"><span>Python</span><button class="copy-code" type="button" aria-label="复制代码">复制代码</button></div><pre class="highlight"><code><span class="n">AdblockConfig</span><span class="p">(</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s2">"standard"</span><span class="p">,</span>
+    <span class="n">lists</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">"easylist"</span><span class="p">,</span>
+        <span class="s2">"easyprivacy"</span><span class="p">,</span>
+        <span class="s2">"92AA0D3B-34AC-4657-9A5C-DBAD339AF8E2"</span><span class="p">,</span>  <span class="c1"># 中文网站广告</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="默认基础列表">默认基础列表</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th><code>lists</code> 值</th>
+<th>名称 / 用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>easylist</code></td>
+<td>EasyList · 常规广告过滤</td>
+</tr>
+<tr>
+<td><code>easyprivacy</code></td>
+<td>EasyPrivacy · 跟踪请求过滤</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="可选列表">可选列表</h3>
+<p>需在 <code>lists</code> 中明确选择。名称说明了过滤目标；其实际效果取决于订阅规则、网页和启用的执行范围。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th><code>lists</code> 值</th>
+<th>名称 / 过滤目标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AC023D22-AE88-4060-A978-4FEEEC4221693</code></td>
+<td>Cookie notice blocker</td>
+</tr>
+<tr>
+<td><code>67E792D4-AE03-4D1A-9EDE-80E01C81F9B8</code></td>
+<td>Annoying distractions blocker</td>
+</tr>
+<tr>
+<td><code>6b91e355-1421-4c03-9a30-911b4d0fb277</code></td>
+<td>AI suggestions blocker</td>
+</tr>
+<tr>
+<td><code>690FF3B4-8B6B-4709-8505-FEC6643D7BD9</code></td>
+<td>Newsletter popup blocker</td>
+</tr>
+<tr>
+<td><code>2F3DCE16-A19A-493C-A88F-2E110FBD37D6</code></td>
+<td>Mobile app promo blocker</td>
+</tr>
+<tr>
+<td><code>7911A1CB-304E-4CDB-ABB3-E2A94A37E4DD</code></td>
+<td>Social media blocker</td>
+</tr>
+<tr>
+<td><code>9E8EC586-4E17-4E5E-99D7-35172C4CEA74</code></td>
+<td>YouTube Shorts blocker</td>
+</tr>
+<tr>
+<td><code>5c6a6c95-b60a-4695-9efb-539359022531</code></td>
+<td>YouTube Playables blocker</td>
+</tr>
+<tr>
+<td><code>2D57ADED-3531-419A-9DED-7F8868BC1561</code></td>
+<td>YouTube recommendations blocker (mobile-only)</td>
+</tr>
+<tr>
+<td><code>7f11b964-4f36-4e06-9d75-bd16381b9386</code></td>
+<td>YouTube autodubbed videos blocker</td>
+</tr>
+<tr>
+<td><code>d579f370-6de3-4507-aa9a-cee4227e59f5</code></td>
+<td>YouTube end video elements blocker</td>
+</tr>
+<tr>
+<td><code>49958da7-f532-4a84-a765-9501729b8e75</code></td>
+<td>YouTube members-only video blocker</td>
+</tr>
+<tr>
+<td><code>BD308B90-D3BB-4041-9114-22E096B0BA77</code></td>
+<td>YouTube distractions elements blocker (mobile-only)</td>
+</tr>
+<tr>
+<td><code>3afa9d35-d837-45b5-b742-b3d0fe94e77c</code></td>
+<td>YouTube thumbnail image blocker</td>
+</tr>
+<tr>
+<td><code>E2FA7D98-0BD5-493E-8AF4-950604ADE9CB</code></td>
+<td>Tracking URL blocker</td>
+</tr>
+<tr>
+<td><code>1ED1870B-997C-4BFE-AEBC-B67D679BAF3B</code></td>
+<td>Chat app blocker</td>
+</tr>
+<tr>
+<td><code>78672887-A098-4D2C-B0CB-A3DEC4834DA7</code></td>
+<td>Paywall blocker</td>
+</tr>
+<tr>
+<td><code>F61D6B7B-4110-4EA4-9C81-38FB4CE90AEC</code></td>
+<td>Porn blocker</td>
+</tr>
+<tr>
+<td><code>9FCEECEC-52B4-4487-8E57-8781E82C91D0</code></td>
+<td>Arabic website ad blocker</td>
+</tr>
+<tr>
+<td><code>FD176DD1-F9A0-4469-B43E-B1764893DD5C</code></td>
+<td>Bulgarian website ad blocker</td>
+</tr>
+<tr>
+<td><code>92AA0D3B-34AC-4657-9A5C-DBAD339AF8E2</code></td>
+<td>Chinese website ad blocker</td>
+</tr>
+<tr>
+<td><code>CC98E4BA-9257-4386-A1BC-1BBF6980324F</code></td>
+<td>Chinese website annoyances blocker</td>
+</tr>
+<tr>
+<td><code>7CCB6921-7FDA-4A9B-B70A-12DD0A8F08EA</code></td>
+<td>Czech and Slovak website ad blocker</td>
+</tr>
+<tr>
+<td><code>9D644676-4784-4982-B94D-C9AB19098D2A</code></td>
+<td>Dutch website ad blocker</td>
+</tr>
+<tr>
+<td><code>0783DBFD-B5E0-4982-9B4A-711BDDB925B7</code></td>
+<td>Estonian website ad blocker</td>
+</tr>
+<tr>
+<td><code>1C6D8556-3400-4358-B9AD-72689D7B2C46</code></td>
+<td>Finnish website ad blocker</td>
+</tr>
+<tr>
+<td><code>9852EFC4-99E4-4F2D-A915-9C3196C7A1DE</code></td>
+<td>French website ad blocker</td>
+</tr>
+<tr>
+<td><code>E71426E7-E898-401C-A195-177945415F38</code></td>
+<td>German website ad blocker</td>
+</tr>
+<tr>
+<td><code>6C0F4C7F-969B-48A0-897A-14583015A587</code></td>
+<td>Greek website ad blocker</td>
+</tr>
+<tr>
+<td><code>85F65E06-D7DA-4144-B6A5-E1AA965D1E47</code></td>
+<td>Hebrew website ad blocker</td>
+</tr>
+<tr>
+<td><code>4C07DB6B-6377-4347-836D-68702CF1494A</code></td>
+<td>Hindi website ad blocker</td>
+</tr>
+<tr>
+<td><code>EDEEE15A-6FA9-4FAC-8CA8-3565508EAAC3</code></td>
+<td>Hungarian website ad blocker</td>
+</tr>
+<tr>
+<td><code>48796273-E783-431E-B864-44D3DCEA66DC</code></td>
+<td>Icelandic website ad blocker</td>
+</tr>
+<tr>
+<td><code>93123971-5AE6-47BA-93EA-BE1E4682E2B6</code></td>
+<td>Indonesian website ad blocker</td>
+</tr>
+<tr>
+<td><code>AB1A661D-E946-4F29-B47F-CA3885F6A9F7</code></td>
+<td>Italian website ad blocker</td>
+</tr>
+<tr>
+<td><code>03F91310-9244-40FA-BCF6-DA31B832F34D</code></td>
+<td>Japanese website ad blocker</td>
+</tr>
+<tr>
+<td><code>45B3ED40-C607-454F-A623-195FDD084637</code></td>
+<td>Korean website ad blocker</td>
+</tr>
+<tr>
+<td><code>15B64333-BAF9-4B77-ADC8-935433CD6F4C</code></td>
+<td>Latvian website ad blocker</td>
+</tr>
+<tr>
+<td><code>4E8B1A63-DEBE-4B8B-AD78-3811C632B353</code></td>
+<td>Lithuanian website ad blocker</td>
+</tr>
+<tr>
+<td><code>7BC951C6-B0B8-4223-97FC-3C22605734FC</code></td>
+<td>Macedonian website ad blocker</td>
+</tr>
+<tr>
+<td><code>8BEDBAA8-4FE2-4FEA-82F2-81B8124A4A74</code></td>
+<td>Nordic website ad blocker</td>
+</tr>
+<tr>
+<td><code>C3C2F394-D7BB-4BC2-9793-E0F13B2B5971</code></td>
+<td>Persian website ad blocker</td>
+</tr>
+<tr>
+<td><code>BF9234EB-4CB7-4CED-9FCB-F1FD31B0666C</code></td>
+<td>Polish website ad blocker</td>
+</tr>
+<tr>
+<td><code>AD3E8454-F376-11E8-8EB2-F2801F1B9FD1</code></td>
+<td>Romanian website ad blocker</td>
+</tr>
+<tr>
+<td><code>1088D292-2369-4D40-9BDF-C7DC03C05966</code></td>
+<td>Russian website ad blocker - AdGuard Russian</td>
+</tr>
+<tr>
+<td><code>80470EEC-970F-4F2C-BF6B-4810520C72E6</code></td>
+<td>Russian website ad blocker - RU AdList</td>
+</tr>
+<tr>
+<td><code>418D293D-72A8-4A28-8718-A1EE40A45AAF</code></td>
+<td>Slovenian website ad blocker</td>
+</tr>
+<tr>
+<td><code>AE657374-1851-4DC4-892B-9212B13B15A7</code></td>
+<td>Spanish website ad blocker</td>
+</tr>
+<tr>
+<td><code>1FEAF960-F377-11E8-8EB2-F2801F1B9FD1</code></td>
+<td>Spanish and Portuguese website ad blocker</td>
+</tr>
+<tr>
+<td><code>7DC2AC80-5BBC-49B8-B473-A31A1145CAC1</code></td>
+<td>Swedish website ad blocker</td>
+</tr>
+<tr>
+<td><code>658F092A-F377-11E8-8EB2-F2801F1B9FD1</code></td>
+<td>Thai website ad blocker</td>
+</tr>
+<tr>
+<td><code>1BE19EFD-9191-4560-878E-30ECA72B5B3C</code></td>
+<td>Turkish website ad blocker</td>
+</tr>
+<tr>
+<td><code>6A0209AC-9869-4FD6-A9DF-039B4200D52C</code></td>
+<td>Vietnamese website ad blocker</td>
+</tr>
+<tr>
+<td><code>564C3B75-8731-404C-AD7C-5683258BA0B0</code></td>
+<td>Experimental ad blocker</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="查询来源与使用自定义订阅">查询来源与使用自定义订阅</h3>
+<div class="code-block"><div class="code-toolbar"><span>Python</span><button class="copy-code" type="button" aria-label="复制代码">复制代码</button></div><pre class="highlight"><code><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">filter_catalog</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">"id"</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="s2">"title"</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="s2">"sources"</span><span class="p">])</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">AdblockConfig</span><span class="p">(</span>
+    <span class="n">lists</span><span class="o">=</span><span class="p">(</span><span class="s2">"easylist"</span><span class="p">,</span> <span class="s2">"easyprivacy"</span><span class="p">),</span>
+    <span class="n">custom_urls</span><span class="o">=</span><span class="p">(</span><span class="s2">"https://your-domain.example/filters.txt"</span><span class="p">,),</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>自定义 HTTPS 订阅网址写入 <code>custom_urls</code>，不要放进 <code>lists</code>；上面的域名是占位示例。未知 ID 会报错。<code>filter_catalog()</code> 只列目录，不发起下载；选中的规则在创建 Context 前按需下载并缓存。升级 SDK 后，以当前安装版本的 <code>filter_catalog()</code> 为准。</p>
+<h2 id="sdk-api-与原生-cdp">SDK API 与原生 CDP</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>SDK API</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>browser.new_context(adblock=AdblockConfig(...))</code></td>
+<td>页面创建前配置过滤</td>
+</tr>
+<tr>
+<td><code>context.set_adblock(config)</code></td>
+<td>修改当前 Context 的完整过滤配置</td>
+</tr>
+<tr>
+<td><code>context.adblock_status()</code></td>
+<td>读取能力、模式、列表与网络拦截统计</td>
+</tr>
+<tr>
+<td><code>filter_catalog()</code></td>
+<td>枚举可选列表，不触发下载</td>
+</tr>
+</tbody>
+</table></div>
+<p>同步 API 无需 <code>await</code>；异步 API 的三个浏览器/Context 方法需要 <code>await</code>。<code>set_adblock</code> 接收完整配置，而非部分字段补丁。</p>
+<p>第三方 CDP 客户端也可连接配套 YSbrowser 的浏览器级会话，使用以下扩展命令；原版 Chrome 不提供这些命令。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>输入</th>
+<th>返回</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Browser.setAdblockConfiguration</code></td>
+<td><code>configuration</code>：JSON 字符串；<code>browserContextId</code>：可选</td>
+<td><code>status</code>：JSON 字符串</td>
+</tr>
+<tr>
+<td><code>Browser.getAdblockStatus</code></td>
+<td><code>browserContextId</code>：可选</td>
+<td><code>status</code>：JSON 字符串</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code-block"><div class="code-toolbar"><span>Python · 异步</span><button class="copy-code" type="button" aria-label="复制代码">复制代码</button></div><pre class="highlight"><code><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ysbrowser_sdk</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdblockConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ysbrowser_sdk.adblock</span><span class="w"> </span><span class="kn">import</span> <span class="n">prepare_adblock</span>
+
+<span class="c1"># cdp 为客户端的浏览器级 CDP 会话；context_id 来自创建 Context 的返回值。</span>
+<span class="n">snapshot</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">to_thread</span><span class="p">(</span><span class="n">prepare_adblock</span><span class="p">,</span> <span class="n">AdblockConfig</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"standard"</span><span class="p">))</span>
+<span class="n">reply</span> <span class="o">=</span> <span class="k">await</span> <span class="n">cdp</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">"Browser.setAdblockConfiguration"</span><span class="p">,</span> <span class="p">{</span>
+    <span class="s2">"browserContextId"</span><span class="p">:</span> <span class="n">context_id</span><span class="p">,</span>
+    <span class="s2">"configuration"</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">snapshot</span><span class="p">),</span>
+<span class="p">})</span>
+<span class="n">status</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">reply</span><span class="p">[</span><span class="s2">"status"</span><span class="p">])</span>
+<span class="n">reply</span> <span class="o">=</span> <span class="k">await</span> <span class="n">cdp</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">"Browser.getAdblockStatus"</span><span class="p">,</span> <span class="p">{</span><span class="s2">"browserContextId"</span><span class="p">:</span> <span class="n">context_id</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">reply</span><span class="p">[</span><span class="s2">"status"</span><span class="p">]))</span>
+</code></pre></div>
+<p>快照中包含实际规则文本。CDP 不根据过滤列表 ID 自行下载订阅；建议使用 SDK 准备快照，再传递给本地或远程浏览器。不要把 SDK <code>AdblockConfig.to_dict()</code> 直接当作原生规则快照发送。</p>
+<footer class="page-footer"><span>适用 SDK 0.11.11 · Patchright 1.64.2</span><a href="#doc-main">返回顶部 ↑</a></footer></main><aside class="toc"><div class="toc-title">本页目录</div><a class="level2" href="#手动操作浏览器">手动操作浏览器</a><a class="level2" href="#lists-支持的过滤列表">`lists` 支持的过滤列表</a><a class="level3" href="#默认基础列表">默认基础列表</a><a class="level3" href="#可选列表">可选列表</a><a class="level3" href="#查询来源与使用自定义订阅">查询来源与使用自定义订阅</a><a class="level2" href="#sdk-api-与原生-cdp">SDK API 与原生 CDP</a></aside>
+<dialog id="search-dialog" aria-label="搜索文档"><div class="search-head"><input id="search-input" type="search" placeholder="搜索 API、参数或常见问题" autocomplete="off" aria-label="搜索关键词"><button class="icon-button" id="search-close">关闭</button></div><div class="search-body" id="search-results"></div><div class="search-bottom">本地全文索引，无需联网 · Esc 关闭</div></dialog><script src="assets/search-index.js"></script><script src="assets/app.js"></script></body></html>
