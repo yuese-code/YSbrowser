@@ -14,7 +14,7 @@
 
 [English](README-en.md) | [中文](README.md)
 
-[SDK documentation](https://yuese-code.github.io/YSbrowser/sdk/0.11.11/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
+[SDK documentation](https://yuese-code.github.io/YSbrowser/sdk/0.11.12/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
 
 </div>
 
@@ -81,13 +81,13 @@ chrome.exe --user-data-dir="D:/YSprofiles/profile-01" --portable-user-data
 
 The same option is available on Linux. Close the browser before copying the entire user data directory, including `Local State`. Existing data must first be migrated in its original environment. Protect the complete directory as account credentials.
 
-SDK 0.11.11 supports `YSBrowser(portable_user_data=True)`; Agent configuration supports `"portable_user_data": true`. This does not make SDK/Agent incognito Contexts persistent or automatically preserve login state.
+SDK 0.11.12 supports `YSBrowser(portable_user_data=True)`; Agent configuration supports `"portable_user_data": true`. This does not make SDK/Agent incognito Contexts persistent or automatically preserve login state.
 
 ## Quick Start
 
 Download the Windows archive from [Releases](https://github.com/yuese-code/YSbrowser/releases), extract it, and run `chrome.exe`.
 
-Release 6.9 provides `chrome.7z` for Windows (entry point: `Chrome-bin/chrome.exe`) and `YSbrowser-154.0.8037.57-ubuntu24.04-x86_64.AppImage` for Ubuntu 24.04 x86_64. The Linux build requires AVX2, FMA and F16C. Make the AppImage executable with `chmod +x`; see the release asset `AppImage-README.txt` for sandbox and AppArmor setup. SDK 0.11.11 downloads the matching platform asset and verifies its pinned SHA-256:
+Release 6.10 provides `chrome.7z` for Windows (entry point: `Chrome-bin/chrome.exe`) and `YSbrowser-154.0.8037.58-ubuntu24.04-x86_64.AppImage` for Ubuntu 24.04 x86_64. The Linux build requires AVX2, FMA and F16C. Make the AppImage executable with `chmod +x`; see the release asset `AppImage-README.txt` for sandbox and AppArmor setup. SDK 0.11.12 downloads the matching platform asset and verifies its pinned SHA-256:
 
 ```shell
 python -m pip install --upgrade ysbrowser-sdk
@@ -154,7 +154,7 @@ await context.set_adblock(AdblockConfig(mode="disabled"))
 
 Direct launch supports `--adblock-mode=standard|aggressive|disabled` and `--adblock-rules=<snapshot-path>`. Custom CDP commands `Browser.setAdblockConfiguration` and `Browser.getAdblockStatus` accept `browserContextId`.
 
-[API, filter lists and command-line snapshots](https://yuese-code.github.io/YSbrowser/sdk/0.11.11/adblock.html)
+[API, filter lists and command-line snapshots](https://yuese-code.github.io/YSbrowser/sdk/0.11.12/adblock.html)
 
 ## Command-Line Options
 
@@ -184,7 +184,7 @@ text-seed > fpseed > Default Chromium behavior
 
 Use `--text-seed=text-01` to select the text rendering configuration. Omit it to inherit `--fpseed`; use `--text-seed=` to disable seeded text rendering even when `--fpseed` is set. The Python SDK field is `FingerprintProfile(text_seed="text-01")`; `text_seed=""` explicitly disables it, while `None` leaves it unspecified.
 
-`--font-seed` only selects visible fonts; `--canvas-seed` controls non-text Canvas drawing. Neither overrides `--text-seed`. This unified option is available in YSbrowser 6.9 with SDK 0.11.11.
+`--font-seed` only selects visible fonts; `--canvas-seed` controls non-text Canvas drawing. Neither overrides `--text-seed`. This unified option is available in YSbrowser 6.10 with SDK 0.11.12.
 
 ### Virtual Media Devices
 
@@ -441,3 +441,7 @@ This project is provided as is. Browsers, graphics drivers, detection scripts, a
 If you find this project useful, consider giving it a ⭐
 
 </div>
+
+## Acknowledgements
+
+Thanks to the Brave team and the contributors to [adblock-rust](https://github.com/brave/adblock-rust). YSbrowser uses portions of code from this project for its ad-blocking functionality. adblock-rust is licensed under MPL-2.0; the relevant copyright notices, licenses, and corresponding source archive are included in the browser distribution.
