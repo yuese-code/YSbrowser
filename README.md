@@ -7,6 +7,7 @@
 
 [![Release](https://img.shields.io/github/v/release/yuese-code/YSbrowser?display_name=tag&style=for-the-badge&color=0969da)](https://github.com/yuese-code/YSbrowser/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/yuese-code/YSbrowser/total?style=for-the-badge&color=2da44e)](https://github.com/yuese-code/YSbrowser/releases)
+[![PyPI downloads](https://api.pepy.tech/badge/ysbrowser-sdk)](https://pepy.tech/projects/ysbrowser-sdk)
 [![Stars](https://img.shields.io/github/stars/yuese-code/YSbrowser?style=for-the-badge&color=bf8700)](https://github.com/yuese-code/YSbrowser/stargazers)
 [![Platform](https://img.shields.io/badge/Windows-x64-0078D4?style=for-the-badge&logo=windows11&logoColor=white)](https://github.com/yuese-code/YSbrowser/releases)
 
@@ -14,7 +15,7 @@
 
 [English](README-en.md) | [中文](README.md)
 
-[SDK 使用手册](https://yuese-code.github.io/YSbrowser/sdk/0.11.13/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
+[SDK 使用手册](https://yuese-code.github.io/YSbrowser/sdk/0.11.14/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
 
 </div>
 
@@ -76,7 +77,7 @@ YSbrowser 是基于 Chromium 定制的 Windows / Linux 桌面浏览器。新版�
 
 从 [Releases](https://github.com/yuese-code/YSbrowser/releases) 下载 Windows 压缩包，解压后运行 `chrome.exe`。
 
-6.11 的 Windows 包为 `chrome.7z`，入口为 `Chrome-bin/chrome.exe`。Linux 包为 `YSbrowser-154.0.8037.58-ubuntu24.04-x86_64.AppImage`，面向 Ubuntu 24.04 x86_64，要求 AVX2、FMA、F16C。下载后 `chmod +x` 即可执行，沙箱与 AppArmor 配置见同一 Release 的 `AppImage-README.txt`。两端均支持 SDK 0.11.13 自动下载和 SHA-256 校验：
+6.12 的 Windows 包为 `chrome.7z`，入口为 `Chrome-bin/chrome.exe`。Linux 包为 `YSbrowser-154.0.8037.58-ubuntu24.04-x86_64.AppImage`，面向 Ubuntu 24.04 x86_64，要求 AVX2、FMA、F16C。下载后 `chmod +x` 即可执行，沙箱与 AppArmor 配置见同一 Release 的 `AppImage-README.txt`。两端均支持 SDK 0.11.14 自动下载和 SHA-256 校验：
 
 ```shell
 python -m pip install --upgrade ysbrowser-sdk
@@ -123,7 +124,7 @@ flowchart LR
   --webgl-seed="webgl-02"
 ```
 
-Canvas 非文字绘制使用 `canvas-02`，WebGL 使用 `webgl-02`；其余支持总体种子的模块从 `account-02` 派生。
+Canvas 采样及共享文字渲染配置使用 `canvas-02`，WebGL 使用 `webgl-02`；其余支持总体种子的模块从 `account-02` 派生。
 
 相同字符串始终映射到相同配置。修改种子后，不保证每个检测网站展示的每一项 hash 都变化，因为网站使用的绘画内容和采集 API 并不相同。
 
@@ -137,11 +138,11 @@ chrome.exe --user-data-dir="D:/YSprofiles/profile-01" --portable-user-data
 
 Linux 同样支持该参数。迁移前关闭浏览器，完整复制用户目录（包括 `Local State`）；已有资料需先在原环境迁移。请妥善保管整个目录。
 
-SDK 0.11.13 支持 `YSBrowser(portable_user_data=True)`，Agent 配置支持 `"portable_user_data": true`。此选项不改变 SDK／Agent 的无痕 Context 语义，也不自动持久化登录状态。
+SDK 0.11.14 支持 `YSBrowser(portable_user_data=True)`，Agent 配置支持 `"portable_user_data": true`。此选项不改变 SDK／Agent 的无痕 Context 语义，也不自动持久化登录状态。
 
 ## 广告与跟踪器过滤
 
-支持 Standard（标准，默认）、Aggressive（激进）和 Disabled（关闭）三种模式。工具栏可切换本站模式并查看网络拦截计数及详情。通过工具栏的“过滤列表”或 `chrome://ys-adblock/`，可选择内置目录中的列表、添加自定义 HTTPS 订阅并更新规则。激进模式可能影响网站功能。
+支持 Disabled（关闭，默认）、Standard（标准）和 Aggressive（激进）三种模式。工具栏可切换本站模式并查看网络拦截计数及详情。通过工具栏的“过滤列表”或 `chrome://ys-adblock/`，可选择内置目录中的列表、添加自定义 HTTPS 订阅并更新规则。激进模式可能影响网站功能。
 
 SDK 支持按 Context 配置过滤列表、CSS 隐藏与脚本规则。列表首次使用时下载，之后复用本机缓存；切换已执行的脚本规则后需重新加载页面。
 
@@ -153,9 +154,9 @@ print(await context.adblock_status())
 await context.set_adblock(AdblockConfig(mode="disabled"))
 ```
 
-直接启动可使用 `--adblock-mode=standard|aggressive|disabled` 和 `--adblock-rules=<规则快照路径>`。CDP 提供 `Browser.setAdblockConfiguration`、`Browser.getAdblockStatus`，支持 `browserContextId`。
+直接启动可使用 `--adblock-mode=standard|aggressive|disabled` 和 `--adblock-rules=<规则快照路径>`。CDP 提供 `Browser.setAdblockConfiguration`、`Browser.getAdblockStatus`，支持 `browserContextId`。启用过滤后，使用 `--adblock-cosmetic=false` 或 `--adblock-scriptlets=false` 可分别关闭 CSS 隐藏或脚本注入。
 
-[完整 API、过滤列表与命令行快照说明](https://yuese-code.github.io/YSbrowser/sdk/0.11.13/adblock.html)
+[完整 API、过滤列表与命令行快照说明](https://yuese-code.github.io/YSbrowser/sdk/0.11.14/adblock.html)
 
 ## 命令行参数
 
@@ -164,28 +165,19 @@ await context.set_adblock(AdblockConfig(mode="disabled"))
 | 参数 | 示例 | 作用 |
 | --- | --- | --- |
 | `--fpseed` | `profile-01` | 总体配置种子，作为各模块的后备来源 |
-| `--canvas-seed` | `canvas-01` | Canvas 非文字绘制 |
+| `--canvas-seed` | `canvas-01` | Canvas 采样及共享文字渲染配置 |
 | `--webgl-seed` | `webgl-01` | WebGL指纹 |
 | `--audio-seed` | `audio-01` | OfflineAudioContext 输出配置 |
 | `--font-seed` | `font-01` | 字体配置；Windows 需安装额外字体 |
 | `--speech-seed` | `speech-01` | 语音配置；Windows 额外语音需本机安装 |
 | `--screen-seed` | `screen-01` | 选择一套内部一致的桌面屏幕配置 |
-| `--text-seed` | `text-01` | Canvas、DOM、SVG 文字统一渲染种子 |
 
 - `--font-seed`：字体配置；Windows 需安装额外字体，Linux 包含字体资源。
 - `--speech-seed`：语音配置；Windows 额外语音需本机安装，Linux 包含本地语音运行库。
 
 使用前请先安装对应资源，安装后重新启动浏览器。这两个参数不会自动安装资源。
 
-文字渲染统一使用以下优先级：
-
-```text
-text-seed > fpseed > Chromium 默认行为
-```
-
-`--text-seed=text-01` 选择文字渲染配置；省略时继承 `--fpseed`；显式传入 `--text-seed=` 时关闭文字随机化，即使已经设置了 `--fpseed`。Python SDK 对应 `FingerprintProfile(text_seed="text-01")`；`text_seed=""` 显式关闭，`None` 表示未指定。
-
-`--font-seed` 仅选择可见字体，`--canvas-seed` 控制 Canvas 非文字绘制，两者均不覆盖 `--text-seed`。此统一参数由 YSbrowser 6.11 与 SDK 0.11.13 提供。
+`--canvas-seed` 控制 Canvas 采样，以及 Canvas、DOM、SVG、OffscreenCanvas 的共享文字渲染配置。省略时继承 `--fpseed`。显式传入空值 `--canvas-seed=` 或 `FingerprintProfile(canvas_seed="")` 会同时关闭这两项配置。独立的 `--text-seed` 已移除。`--font-seed` 继续控制字体可见性。
 
 ### 虚拟媒体设备
 
@@ -196,6 +188,8 @@ text-seed > fpseed > Chromium 默认行为
 ```
 
 ### 服务器 GPU 配置
+
+Linux GPU 改动尚未覆盖所有路径。不同物理显卡、驱动和图形后端的验证数据仍不足，本次以软件渲染验收为主。
 
 `--server-gpu-profile` 用于在 Windows 服务器上选择对网页展示的 GPU 配置，适用于没有独立显卡的环境。该模式使用 WARP 软件图形后端执行绘制，并按所选型号配置 WebGL、WebGPU 的显卡身份信息。
 

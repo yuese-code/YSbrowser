@@ -7,6 +7,7 @@
 
 [![Release](https://img.shields.io/github/v/release/yuese-code/YSbrowser?display_name=tag&style=for-the-badge&color=0969da)](https://github.com/yuese-code/YSbrowser/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/yuese-code/YSbrowser/total?style=for-the-badge&color=2da44e)](https://github.com/yuese-code/YSbrowser/releases)
+[![PyPI downloads](https://api.pepy.tech/badge/ysbrowser-sdk)](https://pepy.tech/projects/ysbrowser-sdk)
 [![Stars](https://img.shields.io/github/stars/yuese-code/YSbrowser?style=for-the-badge&color=bf8700)](https://github.com/yuese-code/YSbrowser/stargazers)
 [![Platform](https://img.shields.io/badge/Windows-x64-0078D4?style=for-the-badge&logo=windows11&logoColor=white)](https://github.com/yuese-code/YSbrowser/releases)
 
@@ -14,7 +15,7 @@
 
 [English](README-en.md) | [中文](README.md)
 
-[SDK documentation](https://yuese-code.github.io/YSbrowser/sdk/0.11.13/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
+[SDK documentation](https://yuese-code.github.io/YSbrowser/sdk/0.11.14/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
 
 </div>
 
@@ -81,13 +82,13 @@ chrome.exe --user-data-dir="D:/YSprofiles/profile-01" --portable-user-data
 
 The same option is available on Linux. Close the browser before copying the entire user data directory, including `Local State`. Existing data must first be migrated in its original environment. Protect the complete directory as account credentials.
 
-SDK 0.11.13 supports `YSBrowser(portable_user_data=True)`; Agent configuration supports `"portable_user_data": true`. This does not make SDK/Agent incognito Contexts persistent or automatically preserve login state.
+SDK 0.11.14 supports `YSBrowser(portable_user_data=True)`; Agent configuration supports `"portable_user_data": true`. This does not make SDK/Agent incognito Contexts persistent or automatically preserve login state.
 
 ## Quick Start
 
 Download the Windows archive from [Releases](https://github.com/yuese-code/YSbrowser/releases), extract it, and run `chrome.exe`.
 
-Release 6.11 provides `chrome.7z` for Windows (entry point: `Chrome-bin/chrome.exe`) and `YSbrowser-154.0.8037.58-ubuntu24.04-x86_64.AppImage` for Ubuntu 24.04 x86_64. The Linux build requires AVX2, FMA and F16C. Make the AppImage executable with `chmod +x`; see the release asset `AppImage-README.txt` for sandbox and AppArmor setup. SDK 0.11.13 downloads the matching platform asset and verifies its pinned SHA-256:
+Release 6.12 provides `chrome.7z` for Windows (entry point: `Chrome-bin/chrome.exe`) and `YSbrowser-154.0.8037.58-ubuntu24.04-x86_64.AppImage` for Ubuntu 24.04 x86_64. The Linux build requires AVX2, FMA and F16C. Make the AppImage executable with `chmod +x`; see the release asset `AppImage-README.txt` for sandbox and AppArmor setup. SDK 0.11.14 downloads the matching platform asset and verifies its pinned SHA-256:
 
 ```shell
 python -m pip install --upgrade ysbrowser-sdk
@@ -134,13 +135,13 @@ For example:
   --webgl-seed="webgl-02"
 ```
 
-Non-text Canvas drawing uses `canvas-02`, and WebGL uses `webgl-02`. Other modules that support the general seed derive their configurations from `account-02`.
+Canvas sampling and the shared text configuration use `canvas-02`, and WebGL uses `webgl-02`. Other modules that support the general seed derive their configurations from `account-02`.
 
 The same string always maps to the same configuration. Changing a seed does not guarantee that every hash displayed by every detection website will change, because websites use different drawing content and data collection APIs.
 
 ## Ad and tracker filtering
 
-Choose Standard (default), Aggressive or Disabled. The toolbar provides per-site mode selection, blocked network request counts and details. Open “Filter lists” from the toolbar or visit `chrome://ys-adblock/` to select lists, add custom HTTPS subscriptions and update rules. Aggressive filtering can affect site functionality.
+Choose Disabled (default), Standard or Aggressive. The toolbar provides per-site mode selection, blocked network request counts and details. Open “Filter lists” from the toolbar or visit `chrome://ys-adblock/` to select lists, add custom HTTPS subscriptions and update rules. Aggressive filtering can affect site functionality.
 
 The SDK configures filter lists, cosmetic filtering and scriptlets per Context. Selected lists are downloaded on demand and cached locally. Reload the page to fully apply changes to previously executed scripts.
 
@@ -152,9 +153,9 @@ print(await context.adblock_status())
 await context.set_adblock(AdblockConfig(mode="disabled"))
 ```
 
-Direct launch supports `--adblock-mode=standard|aggressive|disabled` and `--adblock-rules=<snapshot-path>`. Custom CDP commands `Browser.setAdblockConfiguration` and `Browser.getAdblockStatus` accept `browserContextId`.
+Direct launch supports `--adblock-mode=standard|aggressive|disabled` and `--adblock-rules=<snapshot-path>`. Custom CDP commands `Browser.setAdblockConfiguration` and `Browser.getAdblockStatus` accept `browserContextId`. With filtering enabled, pass `--adblock-cosmetic=false` or `--adblock-scriptlets=false` to turn off CSS hiding or scriptlet injection independently.
 
-[API, filter lists and command-line snapshots](https://yuese-code.github.io/YSbrowser/sdk/0.11.13/adblock.html)
+[API, filter lists and command-line snapshots](https://yuese-code.github.io/YSbrowser/sdk/0.11.14/adblock.html)
 
 ## Command-Line Options
 
@@ -163,28 +164,19 @@ Direct launch supports `--adblock-mode=standard|aggressive|disabled` and `--adbl
 | Option | Example | Description |
 | --- | --- | --- |
 | `--fpseed` | `profile-01` | General configuration seed, used as a fallback by individual modules |
-| `--canvas-seed` | `canvas-01` | Non-text Canvas drawing |
+| `--canvas-seed` | `canvas-01` | Canvas sampling and shared text configuration |
 | `--webgl-seed` | `webgl-01` | WebGL fingerprint |
 | `--audio-seed` | `audio-01` | OfflineAudioContext output configuration |
 | `--font-seed` | `font-01` | Font configuration; additional local fonts required on Windows |
 | `--speech-seed` | `speech-01` | Voice configuration; extra Windows voices require local installation |
 | `--screen-seed` | `screen-01` | Select an internally consistent desktop screen configuration |
-| `--text-seed` | `text-01` | Shared rendering seed for Canvas, DOM and SVG text |
 
 - `--font-seed`: font configuration; Windows requires additional local fonts. Linux includes font resources.
 - `--speech-seed`: voice configuration; extra Windows voices require local installation. Linux includes a local speech runtime.
 
 Install the required resources before use, then restart the browser. These parameters do not install resources automatically.
 
-Text rendering uses one shared setting:
-
-```text
-text-seed > fpseed > Default Chromium behavior
-```
-
-Use `--text-seed=text-01` to select the text rendering configuration. Omit it to inherit `--fpseed`; use `--text-seed=` to disable seeded text rendering even when `--fpseed` is set. The Python SDK field is `FingerprintProfile(text_seed="text-01")`; `text_seed=""` explicitly disables it, while `None` leaves it unspecified.
-
-`--font-seed` only selects visible fonts; `--canvas-seed` controls non-text Canvas drawing. Neither overrides `--text-seed`. This unified option is available in YSbrowser 6.11 with SDK 0.11.13.
+`--canvas-seed` controls Canvas sampling and the shared text rendering configuration for Canvas, DOM, SVG and OffscreenCanvas. Omit it to inherit `--fpseed`. An explicit empty `--canvas-seed=` or `FingerprintProfile(canvas_seed="")` disables both options. The separate `--text-seed` option was removed. `--font-seed` continues to control font visibility.
 
 ### Virtual Media Devices
 
@@ -195,6 +187,8 @@ Use `--text-seed=text-01` to select the text rendering configuration. Omit it to
 ```
 
 ### Server GPU Configuration
+
+Linux GPU changes have partial coverage. Reference data across physical GPUs, drivers and graphics backends remains insufficient. This release was validated primarily with software rendering on Linux.
 
 Use `--server-gpu-profile` to select the GPU configuration exposed to web pages on a Windows server, including environments without a dedicated graphics card. This mode uses the WARP software graphics backend for rendering and configures the GPU identity exposed through WebGL and WebGPU according to the selected model.
 
