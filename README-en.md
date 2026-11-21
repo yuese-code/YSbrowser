@@ -6,8 +6,9 @@
 <p>A stable, reproducible browser environment with independent configuration for each instance</p>
 
 [![Release](https://img.shields.io/github/v/release/yuese-code/YSbrowser?display_name=tag&style=for-the-badge&color=0969da)](https://github.com/yuese-code/YSbrowser/releases/latest)
-[![Downloads](https://img.shields.io/github/downloads/yuese-code/YSbrowser/total?style=for-the-badge&color=2da44e)](https://github.com/yuese-code/YSbrowser/releases)
-[![PyPI downloads](https://api.pepy.tech/badge/ysbrowser-sdk)](https://pepy.tech/projects/ysbrowser-sdk)
+[![Browser downloads](https://img.shields.io/github/downloads/yuese-code/YSbrowser/total?style=for-the-badge&label=Browser%20Downloads&color=2da44e)](https://github.com/yuese-code/YSbrowser/releases)
+[![PyPI downloads](https://img.shields.io/pepy/dt/ysbrowser-sdk?style=for-the-badge&label=PyPI%20Downloads&color=0969da)](https://pepy.tech/projects/ysbrowser-sdk)
+[![Browser license: PolyForm Noncommercial 1.0.0](https://img.shields.io/badge/license-PolyForm%20Noncommercial%201.0.0-8250df?style=for-the-badge)](LICENSE)
 [![Stars](https://img.shields.io/github/stars/yuese-code/YSbrowser?style=for-the-badge&color=bf8700)](https://github.com/yuese-code/YSbrowser/stargazers)
 [![Platform](https://img.shields.io/badge/Windows-x64-0078D4?style=for-the-badge&logo=windows11&logoColor=white)](https://github.com/yuese-code/YSbrowser/releases)
 
