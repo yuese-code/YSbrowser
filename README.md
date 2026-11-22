@@ -16,7 +16,7 @@
 
 [English](README-en.md) | [中文](README.md)
 
-[SDK 使用手册](https://yuese-code.github.io/YSbrowser/sdk/0.11.14/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
+[SDK 使用手册](https://yuese-code.github.io/YSbrowser/sdk/0.11.15/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
 
 </div>
 
@@ -78,7 +78,7 @@ YSbrowser 是基于 Chromium 定制的 Windows / Linux 桌面浏览器。新版�
 
 从 [Releases](https://github.com/yuese-code/YSbrowser/releases) 下载 Windows 压缩包，解压后运行 `chrome.exe`。
 
-6.12 的 Windows 包为 `chrome.7z`，入口为 `Chrome-bin/chrome.exe`。Linux 包为 `YSbrowser-154.0.8037.58-ubuntu24.04-x86_64.AppImage`，面向 Ubuntu 24.04 x86_64，要求 AVX2、FMA、F16C。下载后 `chmod +x` 即可执行，沙箱与 AppArmor 配置见同一 Release 的 `AppImage-README.txt`。两端均支持 SDK 0.11.14 自动下载和 SHA-256 校验：
+6.13 的 Windows 包为 `chrome.7z`，入口为 `Chrome-bin/chrome.exe`。Linux 包为 `YSbrowser-154.0.8037.58-ubuntu24.04-x86_64.AppImage`，面向 Ubuntu 24.04 x86_64，要求 AVX2、FMA、F16C。下载后 `chmod +x` 即可执行，沙箱与 AppArmor 配置见同一 Release 的 `AppImage-README.txt`。两端均支持 SDK 0.11.15 自动下载和 SHA-256 校验：
 
 ```shell
 python -m pip install --upgrade ysbrowser-sdk
@@ -139,7 +139,7 @@ chrome.exe --user-data-dir="D:/YSprofiles/profile-01" --portable-user-data
 
 Linux 同样支持该参数。迁移前关闭浏览器，完整复制用户目录（包括 `Local State`）；已有资料需先在原环境迁移。请妥善保管整个目录。
 
-SDK 0.11.14 支持 `YSBrowser(portable_user_data=True)`，Agent 配置支持 `"portable_user_data": true`。此选项不改变 SDK／Agent 的无痕 Context 语义，也不自动持久化登录状态。
+SDK 0.11.15 支持 `YSBrowser(portable_user_data=True)`，Agent 配置支持 `"portable_user_data": true`。此选项不改变 SDK／Agent 的无痕 Context 语义，也不自动持久化登录状态。
 
 ## 广告与跟踪器过滤
 
@@ -157,7 +157,7 @@ await context.set_adblock(AdblockConfig(mode="disabled"))
 
 直接启动可使用 `--adblock-mode=standard|aggressive|disabled` 和 `--adblock-rules=<规则快照路径>`。CDP 提供 `Browser.setAdblockConfiguration`、`Browser.getAdblockStatus`，支持 `browserContextId`。启用过滤后，使用 `--adblock-cosmetic=false` 或 `--adblock-scriptlets=false` 可分别关闭 CSS 隐藏或脚本注入。
 
-[完整 API、过滤列表与命令行快照说明](https://yuese-code.github.io/YSbrowser/sdk/0.11.14/adblock.html)
+[完整 API、过滤列表与命令行快照说明](https://yuese-code.github.io/YSbrowser/sdk/0.11.15/adblock.html)
 
 ## 命令行参数
 
