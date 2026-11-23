@@ -16,7 +16,7 @@
 
 [English](README-en.md) | [中文](README.md)
 
-[SDK documentation](https://yuese-code.github.io/YSbrowser/sdk/0.11.15/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
+[SDK documentation](https://yuese-code.github.io/YSbrowser/sdk/0.11.16/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
 
 </div>
 
@@ -83,13 +83,13 @@ chrome.exe --user-data-dir="D:/YSprofiles/profile-01" --portable-user-data
 
 The same option is available on Linux. Close the browser before copying the entire user data directory, including `Local State`. Existing data must first be migrated in its original environment. Protect the complete directory as account credentials.
 
-SDK 0.11.15 supports `YSBrowser(portable_user_data=True)`; Agent configuration supports `"portable_user_data": true`. This does not make SDK/Agent incognito Contexts persistent or automatically preserve login state.
+SDK 0.11.16 supports `YSBrowser(portable_user_data=True)`; Agent configuration supports `"portable_user_data": true`. This does not make SDK/Agent incognito Contexts persistent or automatically preserve login state.
 
 ## Quick Start
 
 Download the Windows archive from [Releases](https://github.com/yuese-code/YSbrowser/releases), extract it, and run `chrome.exe`.
 
-Release 6.13 provides `chrome.7z` for Windows (entry point: `Chrome-bin/chrome.exe`) and `YSbrowser-154.0.8037.58-ubuntu24.04-x86_64.AppImage` for Ubuntu 24.04 x86_64. The Linux build requires AVX2, FMA and F16C. Make the AppImage executable with `chmod +x`; see the release asset `AppImage-README.txt` for sandbox and AppArmor setup. SDK 0.11.15 downloads the matching platform asset and verifies its pinned SHA-256:
+Release 6.14 provides `chrome.7z` for Windows (entry point: `Chrome-bin/chrome.exe`) and `YSbrowser-154.0.8037.58-ubuntu24.04-x86_64.AppImage` for Ubuntu 24.04 x86_64. The Linux build requires AVX2, FMA and F16C. Make the AppImage executable with `chmod +x`; see the release asset `AppImage-README.txt` for sandbox and AppArmor setup. SDK 0.11.16 downloads the matching platform asset and verifies its pinned SHA-256:
 
 ```shell
 python -m pip install --upgrade ysbrowser-sdk
@@ -156,7 +156,7 @@ await context.set_adblock(AdblockConfig(mode="disabled"))
 
 Direct launch supports `--adblock-mode=standard|aggressive|disabled` and `--adblock-rules=<snapshot-path>`. Custom CDP commands `Browser.setAdblockConfiguration` and `Browser.getAdblockStatus` accept `browserContextId`. With filtering enabled, pass `--adblock-cosmetic=false` or `--adblock-scriptlets=false` to turn off CSS hiding or scriptlet injection independently.
 
-[API, filter lists and command-line snapshots](https://yuese-code.github.io/YSbrowser/sdk/0.11.15/adblock.html)
+[API, filter lists and command-line snapshots](https://yuese-code.github.io/YSbrowser/sdk/0.11.16/adblock.html)
 
 ## Command-Line Options
 
