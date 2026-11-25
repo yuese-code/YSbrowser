@@ -16,7 +16,7 @@
 
 [English](README-en.md) | [中文](README.md)
 
-[SDK documentation](docs/sdk/0.11.17/README.md) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
+[SDK documentation](https://yuese-code.github.io/YSbrowser/sdk/0.11.17/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
 
 </div>
 
@@ -165,7 +165,7 @@ await context.set_adblock(AdblockConfig(mode="disabled"))
 
 Direct launch supports `--adblock-mode=standard|aggressive|disabled` and `--adblock-rules=<snapshot-path>`. Custom CDP commands `Browser.setAdblockConfiguration` and `Browser.getAdblockStatus` accept `browserContextId`. With filtering enabled, pass `--adblock-cosmetic=false` or `--adblock-scriptlets=false` to turn off CSS hiding or scriptlet injection independently.
 
-[API, filter lists and command-line snapshots](docs/sdk/0.11.17/adblock.md)
+[API, filter lists and command-line snapshots](https://yuese-code.github.io/YSbrowser/sdk/0.11.17/adblock.html)
 
 ## Command-Line Options
 
@@ -298,7 +298,7 @@ Authenticated proxy example:
 
 In builds paired with SDK 0.11.17, omitting the policy leaves Chromium’s ICE behavior in effect. WebRTC can then use a direct connection even when page traffic uses a proxy. For proxy-only WebRTC, configure both the proxy and `--webrtc-ip-policy=proxy`. A SOCKS5 proxy with working UDP forwarding can carry STUN. If the site supplies a TURN server reachable over a supported proxied TCP path, WebRTC can also use that relay. A STUN candidate reports the address observed by STUN, while a TURN candidate reports the address allocated by the relay.
 
-With `proxy` and no usable proxy path, or with `disabled`, a page may report no usable candidates or display `blocked`. [SDK configuration and examples](docs/sdk/0.11.17/proxy.md#webrtc-出口策略)
+With `proxy` and no usable proxy path, or with `disabled`, a page may report no usable candidates or display `blocked`. [SDK configuration and examples](https://yuese-code.github.io/YSbrowser/sdk/0.11.17/proxy.html#webrtc-出口策略)
 
 Command-line options may be visible to local process management tools. Do not expose real proxy passwords in screenshots, logs, or public issues.
 

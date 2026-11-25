@@ -16,7 +16,7 @@
 
 [English](README-en.md) | [中文](README.md)
 
-[SDK 使用手册](docs/sdk/0.11.17/README.md) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
+[SDK 使用手册](https://yuese-code.github.io/YSbrowser/sdk/0.11.17/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
 
 </div>
 
@@ -166,7 +166,7 @@ await context.set_adblock(AdblockConfig(mode="disabled"))
 
 直接启动可使用 `--adblock-mode=standard|aggressive|disabled` 和 `--adblock-rules=<规则快照路径>`。CDP 提供 `Browser.setAdblockConfiguration`、`Browser.getAdblockStatus`，支持 `browserContextId`。启用过滤后，使用 `--adblock-cosmetic=false` 或 `--adblock-scriptlets=false` 可分别关闭 CSS 隐藏或脚本注入。
 
-[完整 API、过滤列表与命令行快照说明](docs/sdk/0.11.17/adblock.md)
+[完整 API、过滤列表与命令行快照说明](https://yuese-code.github.io/YSbrowser/sdk/0.11.17/adblock.html)
 
 ## 命令行参数
 
@@ -299,7 +299,7 @@ Linux GPU 改动尚未覆盖所有路径。不同物理显卡、驱动和图形�
 
 以下行为适用于与 SDK 0.11.17 配套的构建。省略策略时沿用 Chromium 默认行为，即使网页请求走代理，WebRTC 仍可能直连。要求 WebRTC 仅走代理时，同时设置代理和 `--webrtc-ip-policy=proxy`。支持 UDP 转发的 SOCKS5 代理可承载 STUN；若网页配置了 TURN 服务器，且代理能建立相应的 TCP 连接，也可使用中继。STUN 候选反映服务端观测到的出口地址，TURN 候选反映中继分配的地址，两者可能不同。
 
-在 `proxy` 模式下没有可用代理路径，或使用 `disabled` 时，网页可能显示无可用候选或 `blocked`。[SDK 配置与示例](docs/sdk/0.11.17/proxy.md#webrtc-出口策略)
+在 `proxy` 模式下没有可用代理路径，或使用 `disabled` 时，网页可能显示无可用候选或 `blocked`。[SDK 配置与示例](https://yuese-code.github.io/YSbrowser/sdk/0.11.17/proxy.html#webrtc-出口策略)
 
 命令行参数可能被本机进程管理工具读取，不要在截图、日志或公开 Issue 中暴露真实代理密码。
 
