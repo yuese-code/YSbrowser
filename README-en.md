@@ -16,7 +16,7 @@
 
 [English](README-en.md) | [中文](README.md)
 
-[SDK documentation](https://yuese-code.github.io/YSbrowser/sdk/0.11.16/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
+[SDK documentation](docs/sdk/0.11.17/README.md) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
 
 </div>
 
@@ -25,7 +25,7 @@
 
 ## Introduction
 
-YSbrowser is a customized Chromium-based desktop browser for Windows and Linux. The new version configures the browser environment at the browser engine level, with support for separate user data directories, authenticated proxies, WebRTC address policies, and reproducible configurations for Canvas, WebGL, Audio, fonts, screens, and text geometry.
+YSbrowser is a customized Chromium-based desktop browser for Windows and Linux. The new version configures the browser environment at the browser engine level, with support for separate user data directories, authenticated proxies, WebRTC routing policies, and reproducible configurations for Canvas, WebGL, Audio, fonts, screens, and text geometry.
 
 The same launch options and seeds consistently select the same environment. When each instance uses a different `--user-data-dir`, its cookies, cache, LocalStorage, IndexedDB, and site permissions are isolated from those of other instances.
 
@@ -43,7 +43,16 @@ The same launch options and seeds consistently select the same environment. When
 - Screen and device scaling settings
 - Fonts and SpeechSynthesis voice combinations
 - Unified Canvas, DOM and SVG text rendering configuration
-- WebRTC candidate address policies
+
+</td>
+<td width="50%" valign="top">
+
+### 🛡️ Ad and tracker blocking
+
+- Disabled by default, with Standard and Aggressive modes
+- Choose filter lists or add a custom HTTPS subscription
+- Control cosmetic filtering and scriptlet injection separately
+- Inspect blocked requests for the current site in the toolbar
 
 </td>
 </tr>
@@ -56,7 +65,7 @@ The same launch options and seeds consistently select the same environment. When
 - Username and password authentication
 - Proxy switching for individual instances while the browser is running
 - Switching the proxy for instance A does not change instance B
-- Independent control over the address exposed through WebRTC
+- WebRTC can use proxy-only ICE or disable ICE networking
 
 </td>
 <td width="50%" valign="top">
@@ -83,13 +92,13 @@ chrome.exe --user-data-dir="D:/YSprofiles/profile-01" --portable-user-data
 
 The same option is available on Linux. Close the browser before copying the entire user data directory, including `Local State`. Existing data must first be migrated in its original environment. Protect the complete directory as account credentials.
 
-SDK 0.11.16 supports `YSBrowser(portable_user_data=True)`; Agent configuration supports `"portable_user_data": true`. This does not make SDK/Agent incognito Contexts persistent or automatically preserve login state.
+SDK 0.11.17 supports `YSBrowser(portable_user_data=True)`; Agent configuration supports `"portable_user_data": true`. This does not make SDK/Agent incognito Contexts persistent or automatically preserve login state.
 
 ## Quick Start
 
 Download the Windows archive from [Releases](https://github.com/yuese-code/YSbrowser/releases), extract it, and run `chrome.exe`.
 
-Release 6.14 provides `chrome.7z` for Windows (entry point: `Chrome-bin/chrome.exe`) and `YSbrowser-154.0.8037.58-ubuntu24.04-x86_64.AppImage` for Ubuntu 24.04 x86_64. The Linux build requires AVX2, FMA and F16C. Make the AppImage executable with `chmod +x`; see the release asset `AppImage-README.txt` for sandbox and AppArmor setup. SDK 0.11.16 downloads the matching platform asset and verifies its pinned SHA-256:
+Release 6.15 provides `chrome.7z` for Windows (entry point: `Chrome-bin/chrome.exe`) and `YSbrowser-154.0.8037.58-ubuntu24.04-x86_64.AppImage` for Ubuntu 24.04 x86_64. The Linux build requires AVX2, FMA and F16C. Make the AppImage executable with `chmod +x`; see the release asset `AppImage-README.txt` for sandbox and AppArmor setup. SDK 0.11.17 downloads the matching platform asset and verifies its pinned SHA-256:
 
 ```shell
 python -m pip install --upgrade ysbrowser-sdk
@@ -156,7 +165,7 @@ await context.set_adblock(AdblockConfig(mode="disabled"))
 
 Direct launch supports `--adblock-mode=standard|aggressive|disabled` and `--adblock-rules=<snapshot-path>`. Custom CDP commands `Browser.setAdblockConfiguration` and `Browser.getAdblockStatus` accept `browserContextId`. With filtering enabled, pass `--adblock-cosmetic=false` or `--adblock-scriptlets=false` to turn off CSS hiding or scriptlet injection independently.
 
-[API, filter lists and command-line snapshots](https://yuese-code.github.io/YSbrowser/sdk/0.11.16/adblock.html)
+[API, filter lists and command-line snapshots](docs/sdk/0.11.17/adblock.md)
 
 ## Command-Line Options
 
@@ -274,9 +283,8 @@ Latitude must be between `-90` and `90`, longitude between `-180` and `180`, and
 | --- | --- | --- |
 | `--proxy-server` | `http://127.0.0.1:8080` | Set an HTTP, HTTPS, or SOCKS5 proxy |
 | `--proxy-auth` | `username:password` | Set the proxy username and password |
-| `--webrtc-ip-policy` | `disabled` | Prevent WebRTC from exposing address candidates |
-| `--webrtc-ip-policy` | `proxy` | Enable a custom WebRTC address policy |
-| `--webrtc-proxy-ip` | `203.0.113.10` | Set the address exposed through WebRTC |
+| `--webrtc-ip-policy` | `proxy` | Use ICE only through an available proxy path. If none works, stop without a direct fallback. |
+| `--webrtc-ip-policy` | `disabled` | Keep `RTCPeerConnection` and SDP available while blocking ICE network traffic. |
 
 Authenticated proxy example:
 
@@ -285,11 +293,12 @@ Authenticated proxy example:
   --user-data-dir="D:\YSbrowser\profiles\proxy-01" `
   --proxy-server="http://127.0.0.1:8080" `
   --proxy-auth="username:password" `
-  --webrtc-ip-policy="proxy" `
-  --webrtc-proxy-ip="203.0.113.10"
+  --webrtc-ip-policy="proxy"
 ```
 
-`--webrtc-proxy-ip` only controls the candidate address exposed through WebRTC; it does not replace a network proxy. Outbound HTTP traffic still uses `--proxy-server` or the system's network configuration.
+In builds paired with SDK 0.11.17, omitting the policy leaves Chromium’s ICE behavior in effect. WebRTC can then use a direct connection even when page traffic uses a proxy. For proxy-only WebRTC, configure both the proxy and `--webrtc-ip-policy=proxy`. A SOCKS5 proxy with working UDP forwarding can carry STUN. If the site supplies a TURN server reachable over a supported proxied TCP path, WebRTC can also use that relay. A STUN candidate reports the address observed by STUN, while a TURN candidate reports the address allocated by the relay.
+
+With `proxy` and no usable proxy path, or with `disabled`, a page may report no usable candidates or display `blocked`. [SDK configuration and examples](docs/sdk/0.11.17/proxy.md#webrtc-出口策略)
 
 Command-line options may be visible to local process management tools. Do not expose real proxy passwords in screenshots, logs, or public issues.
 
@@ -333,7 +342,6 @@ The following example uses a stable general seed with separate seeds for Canvas,
   --geolocation="3.1390,101.6869,100" `
   --proxy-server="socks5://127.0.0.1:1080" `
   --webrtc-ip-policy="proxy" `
-  --webrtc-proxy-ip="203.0.113.10" `
   --iconumber=1
 ```
 

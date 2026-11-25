@@ -16,7 +16,7 @@
 
 [English](README-en.md) | [中文](README.md)
 
-[SDK 使用手册](https://yuese-code.github.io/YSbrowser/sdk/0.11.16/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
+[SDK 使用手册](docs/sdk/0.11.17/README.md) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
 
 </div>
 
@@ -25,7 +25,7 @@
 
 ## 简介
 
-YSbrowser 是基于 Chromium 定制的 Windows / Linux 桌面浏览器。新版本把环境配置放在浏览器底层完成，支持独立用户目录、认证代理、WebRTC 地址策略，以及 Canvas、WebGL、Audio、字体、屏幕和文本几何等可复现配置。
+YSbrowser 是基于 Chromium 定制的 Windows / Linux 桌面浏览器。新版本把环境配置放在浏览器底层完成，支持独立用户目录、认证代理、WebRTC 出口策略，以及 Canvas、WebGL、Audio、字体、屏幕和文本几何等可复现配置。
 
 同一套启动参数与种子会稳定选择同一套环境。不同实例使用不同的 `--user-data-dir` 后，Cookie、缓存、LocalStorage、IndexedDB 和站点权限彼此隔离。
 
@@ -44,7 +44,16 @@ YSbrowser 是基于 Chromium 定制的 Windows / Linux 桌面浏览器。新版�
 - 屏幕与设备缩放环境
 - 字体与 SpeechSynthesis 语音组合
 - Canvas、DOM、SVG 文字统一渲染配置
-- WebRTC 候选地址策略
+
+</td>
+<td width="50%" valign="top">
+
+### 🛡️ 广告与跟踪器过滤
+
+- 默认关闭，可切换标准或激进模式
+- 可选过滤列表，支持自定义 HTTPS 订阅
+- CSS 隐藏与脚本注入可分别开关
+- 工具栏可查看当前网站被拦截的请求
 
 </td>
 </tr>
@@ -57,7 +66,7 @@ YSbrowser 是基于 Chromium 定制的 Windows / Linux 桌面浏览器。新版�
 - 用户名和密码认证
 - 支持浏览器运行期间按实例切换代理
 - A 浏览器实例切换代理不会修改 B 实例
-- WebRTC 展示地址可独立控制
+- WebRTC 可限制为仅走代理，也可关闭 ICE 联网
 
 </td>
 <td width="50%" valign="top">
@@ -78,7 +87,7 @@ YSbrowser 是基于 Chromium 定制的 Windows / Linux 桌面浏览器。新版�
 
 从 [Releases](https://github.com/yuese-code/YSbrowser/releases) 下载 Windows 压缩包，解压后运行 `chrome.exe`。
 
-6.14 的 Windows 包为 `chrome.7z`，入口为 `Chrome-bin/chrome.exe`。Linux 包为 `YSbrowser-154.0.8037.58-ubuntu24.04-x86_64.AppImage`，面向 Ubuntu 24.04 x86_64，要求 AVX2、FMA、F16C。下载后 `chmod +x` 即可执行，沙箱与 AppArmor 配置见同一 Release 的 `AppImage-README.txt`。两端均支持 SDK 0.11.16 自动下载和 SHA-256 校验：
+6.15 的 Windows 包为 `chrome.7z`，入口为 `Chrome-bin/chrome.exe`。Linux 包为 `YSbrowser-154.0.8037.58-ubuntu24.04-x86_64.AppImage`，面向 Ubuntu 24.04 x86_64，要求 AVX2、FMA、F16C。下载后 `chmod +x` 即可执行，沙箱与 AppArmor 配置见同一 Release 的 `AppImage-README.txt`。两端均支持 SDK 0.11.17 自动下载和 SHA-256 校验：
 
 ```shell
 python -m pip install --upgrade ysbrowser-sdk
@@ -139,7 +148,7 @@ chrome.exe --user-data-dir="D:/YSprofiles/profile-01" --portable-user-data
 
 Linux 同样支持该参数。迁移前关闭浏览器，完整复制用户目录（包括 `Local State`）；已有资料需先在原环境迁移。请妥善保管整个目录。
 
-SDK 0.11.16 支持 `YSBrowser(portable_user_data=True)`，Agent 配置支持 `"portable_user_data": true`。此选项不改变 SDK／Agent 的无痕 Context 语义，也不自动持久化登录状态。
+SDK 0.11.17 支持 `YSBrowser(portable_user_data=True)`，Agent 配置支持 `"portable_user_data": true`。此选项不改变 SDK／Agent 的无痕 Context 语义，也不自动持久化登录状态。
 
 ## 广告与跟踪器过滤
 
@@ -157,7 +166,7 @@ await context.set_adblock(AdblockConfig(mode="disabled"))
 
 直接启动可使用 `--adblock-mode=standard|aggressive|disabled` 和 `--adblock-rules=<规则快照路径>`。CDP 提供 `Browser.setAdblockConfiguration`、`Browser.getAdblockStatus`，支持 `browserContextId`。启用过滤后，使用 `--adblock-cosmetic=false` 或 `--adblock-scriptlets=false` 可分别关闭 CSS 隐藏或脚本注入。
 
-[完整 API、过滤列表与命令行快照说明](https://yuese-code.github.io/YSbrowser/sdk/0.11.16/adblock.html)
+[完整 API、过滤列表与命令行快照说明](docs/sdk/0.11.17/adblock.md)
 
 ## 命令行参数
 
@@ -275,9 +284,8 @@ Linux GPU 改动尚未覆盖所有路径。不同物理显卡、驱动和图形�
 | --- | --- | --- |
 | `--proxy-server` | `http://127.0.0.1:8080` | 设置 HTTP、HTTPS 或 SOCKS5 代理 |
 | `--proxy-auth` | `username:password` | 设置代理用户名和密码 |
-| `--webrtc-ip-policy` | `disabled` | 禁止 WebRTC 暴露地址候选 |
-| `--webrtc-ip-policy` | `proxy` | 启用自定义 WebRTC 地址策略 |
-| `--webrtc-proxy-ip` | `203.0.113.10` | 设置 WebRTC 展示地址 |
+| `--webrtc-ip-policy` | `proxy` | ICE 仅通过可用代理路径联网；没有可用路径时停止，不回退直连。 |
+| `--webrtc-ip-policy` | `disabled` | 保留 `RTCPeerConnection` 和 SDP 协商，关闭 ICE 联网。 |
 
 认证代理示例：
 
@@ -286,11 +294,12 @@ Linux GPU 改动尚未覆盖所有路径。不同物理显卡、驱动和图形�
   --user-data-dir="D:\YSbrowser\profiles\proxy-01" `
   --proxy-server="http://127.0.0.1:8080" `
   --proxy-auth="username:password" `
-  --webrtc-ip-policy="proxy" `
-  --webrtc-proxy-ip="203.0.113.10"
+  --webrtc-ip-policy="proxy"
 ```
 
-`--webrtc-proxy-ip` 只控制 WebRTC 对外展示的候选地址，不会替代网络代理。HTTP 请求的出口仍由 `--proxy-server` 或系统网络决定。
+以下行为适用于与 SDK 0.11.17 配套的构建。省略策略时沿用 Chromium 默认行为，即使网页请求走代理，WebRTC 仍可能直连。要求 WebRTC 仅走代理时，同时设置代理和 `--webrtc-ip-policy=proxy`。支持 UDP 转发的 SOCKS5 代理可承载 STUN；若网页配置了 TURN 服务器，且代理能建立相应的 TCP 连接，也可使用中继。STUN 候选反映服务端观测到的出口地址，TURN 候选反映中继分配的地址，两者可能不同。
+
+在 `proxy` 模式下没有可用代理路径，或使用 `disabled` 时，网页可能显示无可用候选或 `blocked`。[SDK 配置与示例](docs/sdk/0.11.17/proxy.md#webrtc-出口策略)
 
 命令行参数可能被本机进程管理工具读取，不要在截图、日志或公开 Issue 中暴露真实代理密码。
 
@@ -335,7 +344,6 @@ CDP 启动示例：
   --geolocation="3.1390,101.6869,100" `
   --proxy-server="socks5://127.0.0.1:1080" `
   --webrtc-ip-policy="proxy" `
-  --webrtc-proxy-ip="203.0.113.10" `
   --iconumber=1
 ```
 
