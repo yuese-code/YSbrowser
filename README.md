@@ -16,7 +16,7 @@
 
 [English](README-en.md) | [中文](README.md)
 
-[SDK 使用手册](https://yuese-code.github.io/YSbrowser/sdk/0.11.17/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/)
+[SDK 使用手册](https://yuese-code.github.io/YSbrowser/sdk/0.11.17/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/) · [SDK 源码](https://github.com/yuese-code/ysbrowser-sdk) · [双节点示例](https://github.com/yuese-code/ysbrowser-sdk/tree/main/examples/browserscan)
 
 </div>
 
