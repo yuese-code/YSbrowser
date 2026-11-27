@@ -16,7 +16,7 @@
 
 [English](README-en.md) | [中文](README.md)
 
-[Python SDK 快速开始](https://github.com/yuese-code/ysbrowser-sdk#快速开始) · [SDK 使用手册](https://yuese-code.github.io/YSbrowser/sdk/0.11.17/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/) · [SDK 源码](https://github.com/yuese-code/ysbrowser-sdk) · [双节点示例](https://github.com/yuese-code/ysbrowser-sdk/tree/main/examples/browserscan)
+[Python SDK 快速开始](https://github.com/yuese-code/ysbrowser-sdk#快速开始) · [SDK 使用手册](https://yuese-code.github.io/YSbrowser/sdk/0.11.18/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/) · [SDK 源码](https://github.com/yuese-code/ysbrowser-sdk) · [双节点示例](https://github.com/yuese-code/ysbrowser-sdk/tree/main/examples/browserscan)
 
 </div>
 
@@ -32,6 +32,8 @@ YSbrowser 是基于 Chromium 定制的 Windows / Linux 桌面浏览器。新版�
 > Windows 图形实现面向 Windows x64 和 Chromium 默认的 ANGLE D3D11 路径。强制使用 Vulkan、OpenGL 或 SwiftShader 时，WebGL 绘画结果不保证与 D3D11 相同。
 
 ## 新版本特性
+
+6.16 更新了 Windows 和 Linux 154 构建，修复 Canvas 2D 相关问题。配套 Python SDK 为 0.11.18。[下载本版](https://github.com/yuese-code/YSbrowser/releases/tag/6.16)
 
 <table>
 <tr>
@@ -87,7 +89,7 @@ YSbrowser 是基于 Chromium 定制的 Windows / Linux 桌面浏览器。新版�
 
 从 [Releases](https://github.com/yuese-code/YSbrowser/releases) 下载 Windows 压缩包，解压后运行 `chrome.exe`。
 
-6.15 的 Windows 包为 `chrome.7z`，入口为 `Chrome-bin/chrome.exe`。Linux 包为 `YSbrowser-154.0.8037.58-ubuntu24.04-x86_64.AppImage`，面向 Ubuntu 24.04 x86_64，要求 AVX2、FMA、F16C。下载后 `chmod +x` 即可执行，沙箱与 AppArmor 配置见同一 Release 的 `AppImage-README.txt`。两端均支持 SDK 0.11.17 自动下载和 SHA-256 校验：
+6.16 的 Windows 包为 `chrome.7z`，入口为 `Chrome-bin/chrome.exe`。Linux 包为 `YSbrowser-154.0.8037.58-ubuntu24.04-x86_64.AppImage`，面向 Ubuntu 24.04 x86_64，要求 AVX2、FMA、F16C。下载后 `chmod +x` 即可执行，沙箱与 AppArmor 配置见同一 Release 的 `AppImage-README.txt`。两端均支持 SDK 0.11.18 自动下载和 SHA-256 校验：
 
 ```shell
 python -m pip install --upgrade ysbrowser-sdk
@@ -148,7 +150,7 @@ chrome.exe --user-data-dir="D:/YSprofiles/profile-01" --portable-user-data
 
 Linux 同样支持该参数。迁移前关闭浏览器，完整复制用户目录（包括 `Local State`）；已有资料需先在原环境迁移。请妥善保管整个目录。
 
-SDK 0.11.17 支持 `YSBrowser(portable_user_data=True)`，Agent 配置支持 `"portable_user_data": true`。此选项不改变 SDK／Agent 的无痕 Context 语义，也不自动持久化登录状态。
+SDK 0.11.18 支持 `YSBrowser(portable_user_data=True)`，Agent 配置支持 `"portable_user_data": true`。此选项不改变 SDK／Agent 的无痕 Context 语义，也不自动持久化登录状态。
 
 ## 广告与跟踪器过滤
 
@@ -166,7 +168,7 @@ await context.set_adblock(AdblockConfig(mode="disabled"))
 
 直接启动可使用 `--adblock-mode=standard|aggressive|disabled` 和 `--adblock-rules=<规则快照路径>`。CDP 提供 `Browser.setAdblockConfiguration`、`Browser.getAdblockStatus`，支持 `browserContextId`。启用过滤后，使用 `--adblock-cosmetic=false` 或 `--adblock-scriptlets=false` 可分别关闭 CSS 隐藏或脚本注入。
 
-[完整 API、过滤列表与命令行快照说明](https://yuese-code.github.io/YSbrowser/sdk/0.11.17/adblock.html)
+[完整 API、过滤列表与命令行快照说明](https://yuese-code.github.io/YSbrowser/sdk/0.11.18/adblock.html)
 
 ## 命令行参数
 
@@ -297,9 +299,9 @@ Linux GPU 改动尚未覆盖所有路径。不同物理显卡、驱动和图形�
   --webrtc-ip-policy="proxy"
 ```
 
-以下行为适用于与 SDK 0.11.17 配套的构建。省略策略时沿用 Chromium 默认行为，即使网页请求走代理，WebRTC 仍可能直连。要求 WebRTC 仅走代理时，同时设置代理和 `--webrtc-ip-policy=proxy`。支持 UDP 转发的 SOCKS5 代理可承载 STUN；若网页配置了 TURN 服务器，且代理能建立相应的 TCP 连接，也可使用中继。STUN 候选反映服务端观测到的出口地址，TURN 候选反映中继分配的地址，两者可能不同。
+以下行为适用于与 SDK 0.11.18 配套的构建。省略策略时沿用 Chromium 默认行为，即使网页请求走代理，WebRTC 仍可能直连。要求 WebRTC 仅走代理时，同时设置代理和 `--webrtc-ip-policy=proxy`。支持 UDP 转发的 SOCKS5 代理可承载 STUN；若网页配置了 TURN 服务器，且代理能建立相应的 TCP 连接，也可使用中继。STUN 候选反映服务端观测到的出口地址，TURN 候选反映中继分配的地址，两者可能不同。
 
-在 `proxy` 模式下没有可用代理路径，或使用 `disabled` 时，网页可能显示无可用候选或 `blocked`。[SDK 配置与示例](https://yuese-code.github.io/YSbrowser/sdk/0.11.17/proxy.html#webrtc-出口策略)
+在 `proxy` 模式下没有可用代理路径，或使用 `disabled` 时，网页可能显示无可用候选或 `blocked`。[SDK 配置与示例](https://yuese-code.github.io/YSbrowser/sdk/0.11.18/proxy.html#webrtc-出口策略)
 
 命令行参数可能被本机进程管理工具读取，不要在截图、日志或公开 Issue 中暴露真实代理密码。
 

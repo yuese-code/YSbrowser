@@ -16,7 +16,7 @@
 
 [English](README-en.md) | [中文](README.md)
 
-[SDK documentation](https://yuese-code.github.io/YSbrowser/sdk/0.11.17/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/) · [SDK source](https://github.com/yuese-code/ysbrowser-sdk) · [Two-region example](https://github.com/yuese-code/ysbrowser-sdk/tree/main/examples/browserscan)
+[SDK documentation](https://yuese-code.github.io/YSbrowser/sdk/0.11.18/README.html) · [PyPI](https://pypi.org/project/ysbrowser-sdk/) · [SDK source](https://github.com/yuese-code/ysbrowser-sdk) · [Two-region example](https://github.com/yuese-code/ysbrowser-sdk/tree/main/examples/browserscan)
 
 </div>
 
@@ -32,6 +32,8 @@ The same launch options and seeds consistently select the same environment. When
 > The Windows graphics implementation targets Windows x64 and Chromium's default ANGLE D3D11 rendering path. If you force Vulkan, OpenGL, or SwiftShader, WebGL rendering results are not guaranteed to match those produced by D3D11.
 
 ## What's New
+
+Release 6.16 updates the Windows and Linux Chromium 154 builds and fixes a Canvas 2D issue. Use Python SDK 0.11.18 with this release. [Download 6.16](https://github.com/yuese-code/YSbrowser/releases/tag/6.16)
 
 <table>
 <tr>
@@ -92,13 +94,13 @@ chrome.exe --user-data-dir="D:/YSprofiles/profile-01" --portable-user-data
 
 The same option is available on Linux. Close the browser before copying the entire user data directory, including `Local State`. Existing data must first be migrated in its original environment. Protect the complete directory as account credentials.
 
-SDK 0.11.17 supports `YSBrowser(portable_user_data=True)`; Agent configuration supports `"portable_user_data": true`. This does not make SDK/Agent incognito Contexts persistent or automatically preserve login state.
+SDK 0.11.18 supports `YSBrowser(portable_user_data=True)`; Agent configuration supports `"portable_user_data": true`. This does not make SDK/Agent incognito Contexts persistent or automatically preserve login state.
 
 ## Quick Start
 
 Download the Windows archive from [Releases](https://github.com/yuese-code/YSbrowser/releases), extract it, and run `chrome.exe`.
 
-Release 6.15 provides `chrome.7z` for Windows (entry point: `Chrome-bin/chrome.exe`) and `YSbrowser-154.0.8037.58-ubuntu24.04-x86_64.AppImage` for Ubuntu 24.04 x86_64. The Linux build requires AVX2, FMA and F16C. Make the AppImage executable with `chmod +x`; see the release asset `AppImage-README.txt` for sandbox and AppArmor setup. SDK 0.11.17 downloads the matching platform asset and verifies its pinned SHA-256:
+Release 6.16 provides `chrome.7z` for Windows (entry point: `Chrome-bin/chrome.exe`) and `YSbrowser-154.0.8037.58-ubuntu24.04-x86_64.AppImage` for Ubuntu 24.04 x86_64. The Linux build requires AVX2, FMA and F16C. Make the AppImage executable with `chmod +x`; see the release asset `AppImage-README.txt` for sandbox and AppArmor setup. SDK 0.11.18 downloads the matching platform asset and verifies its pinned SHA-256:
 
 ```shell
 python -m pip install --upgrade ysbrowser-sdk
@@ -165,7 +167,7 @@ await context.set_adblock(AdblockConfig(mode="disabled"))
 
 Direct launch supports `--adblock-mode=standard|aggressive|disabled` and `--adblock-rules=<snapshot-path>`. Custom CDP commands `Browser.setAdblockConfiguration` and `Browser.getAdblockStatus` accept `browserContextId`. With filtering enabled, pass `--adblock-cosmetic=false` or `--adblock-scriptlets=false` to turn off CSS hiding or scriptlet injection independently.
 
-[API, filter lists and command-line snapshots](https://yuese-code.github.io/YSbrowser/sdk/0.11.17/adblock.html)
+[API, filter lists and command-line snapshots](https://yuese-code.github.io/YSbrowser/sdk/0.11.18/adblock.html)
 
 ## Command-Line Options
 
@@ -296,9 +298,9 @@ Authenticated proxy example:
   --webrtc-ip-policy="proxy"
 ```
 
-In builds paired with SDK 0.11.17, omitting the policy leaves Chromium’s ICE behavior in effect. WebRTC can then use a direct connection even when page traffic uses a proxy. For proxy-only WebRTC, configure both the proxy and `--webrtc-ip-policy=proxy`. A SOCKS5 proxy with working UDP forwarding can carry STUN. If the site supplies a TURN server reachable over a supported proxied TCP path, WebRTC can also use that relay. A STUN candidate reports the address observed by STUN, while a TURN candidate reports the address allocated by the relay.
+In builds paired with SDK 0.11.18, omitting the policy leaves Chromium’s ICE behavior in effect. WebRTC can then use a direct connection even when page traffic uses a proxy. For proxy-only WebRTC, configure both the proxy and `--webrtc-ip-policy=proxy`. A SOCKS5 proxy with working UDP forwarding can carry STUN. If the site supplies a TURN server reachable over a supported proxied TCP path, WebRTC can also use that relay. A STUN candidate reports the address observed by STUN, while a TURN candidate reports the address allocated by the relay.
 
-With `proxy` and no usable proxy path, or with `disabled`, a page may report no usable candidates or display `blocked`. [SDK configuration and examples](https://yuese-code.github.io/YSbrowser/sdk/0.11.17/proxy.html#webrtc-出口策略)
+With `proxy` and no usable proxy path, or with `disabled`, a page may report no usable candidates or display `blocked`. [SDK configuration and examples](https://yuese-code.github.io/YSbrowser/sdk/0.11.18/proxy.html#webrtc-出口策略)
 
 Command-line options may be visible to local process management tools. Do not expose real proxy passwords in screenshots, logs, or public issues.
 
